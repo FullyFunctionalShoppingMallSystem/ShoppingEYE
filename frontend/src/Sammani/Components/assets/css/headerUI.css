@@ -1,0 +1,44 @@
+@import url("../css/material-kit.css?v=3.0.4");
+@import url("../css/nucleo-icons.css");
+@import url("../css/nucleo-svg.css");
+@import url("https://kit.fontawesome.com/42d5adcbca.js");
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons+Round");
+@import url("https://use.fontawesome.com/releases/v5.1.0/css/all.css");
+
+.image{
+    background-image: url("../img/down-arrow-dark.svg");
+    background-size: cover;
+    background-position: center;
+   
+}
+
+.cart{
+    border-radius: 50px;
+    background-image: url("../img/cart.jpeg");
+    background-size: cover;
+    background-position: center;
+    width: 80px;
+    height: 40px;
+   
+}
+.cart{
+    border-radius: 50px;
+    background-image: url("../img/cart.jpeg");
+    background-size: cover;
+    background-position: center;
+    width: 80px;
+    height: 40px;
+   
+}
+.profile{
+    border-radius: 50px;
+    background-image: url("../img/profile.png");
+    background-size: cover;
+    background-position: center;
+    width: 80px;
+    height: 40px;
+   
+}
+.mt-n6 {
+    margin-top: -7rem !important;
+}
