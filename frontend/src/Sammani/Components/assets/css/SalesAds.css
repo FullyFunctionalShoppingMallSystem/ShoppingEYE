@@ -1,0 +1,93 @@
+
+  #wrapper{
+   margin:50px auto;
+  }
+  
+  h4{
+    text-align: center; 
+    font-family: monospace;
+    cursor: pointer;
+    color:#000;
+    position:fixed;
+    bottom:5px;
+    right:5px;
+    z-index:-1;
+  }
+  
+   svg{
+    cursor: pointer !important;
+     margin:px auto;
+  
+  }
+   /* End of Global Styling  */ 
+  
+  
+  
+  
+  
+   /* Ex1 Styling  */ 
+  .Banner1{
+    display:none;
+  }
+  
+  .Biggest, .ShopNow, .Sales { /* ex 1 texts  */
+    display:none;
+    color: red;
+      animation-name: example;
+      animation-duration: 4s;
+  }
+  
+  .BannerBorderLine, .BannerBorder {
+     display:none;
+  }
+  
+  .BannerHolder{
+   display:none;
+  }
+  
+  .BorderAnimationEx1 {
+    stroke-dasharray: 2000;
+    stroke-dashoffset: 2000;
+    animation: BannerBorder 1s linear forwards;
+    animation-delay: 2s;
+  }
+   /* End of Ex1 Styling  */ 
+  
+  
+  
+  
+  
+  
+   /* Global Border Animation   */ 
+  @keyframes BannerBorder {
+    from {
+      stroke-dashoffset: 2000;
+    }
+    to {
+      stroke-dashoffset: 1;
+    }
+  }
+  
+  @-webkit-keyframes fadeinout {
+    0%,100% { opacity: 0; }
+    50% { opacity: 1; }
+  }
+  
+  @keyframes fadeinout {
+    0%,100% { opacity: 0; }
+    50% { opacity: 1; }
+  }
+  
+  
+  @keyframes example {
+      from {color: red;}
+      to {color: yellow;}
+  }
+  
+  
+  
+  
+  
+  
+  
+  
