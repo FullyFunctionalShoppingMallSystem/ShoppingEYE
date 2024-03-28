@@ -9,8 +9,8 @@ import MenFashion from "./MenFashion.js"
 import video1 from "../assets/img/Furniture1.mp4"
 import video2 from "../assets/img/Furniture2.mp4"
 import video3 from "../assets/img/Furniture3.mp4"
-import video4 from "../assets/img/Furniture4.mp4"
-import video5 from "../assets/img/Furniture5.mp4"
+// import video4 from "../assets/img/Furniture4.mp4"
+// import video5 from "../assets/img/Furniture5.mp4"
 import "../assets/css/TextAnimation2.css"
 import Foot from "./FootWear.js"
 import Beauty from "./Beauty.js";
@@ -105,7 +105,7 @@ function Stores() {
   Your browser does not support the video tag.
             </video>
             <video autoPlay loop muted style={{ marginTop:"30px", marginLeft:"0px", height:"230px", borderRadius:"3px" }}>
-  <source src={video4} type="video/mp4" />
+  <source src={video2} type="video/mp4" />
   Your browser does not support the video tag.
             </video>
             <video autoPlay loop muted style={{ marginTop:"30px", marginLeft:"0px", height:"230px", borderRadius:"3px" }}>
@@ -113,7 +113,7 @@ function Stores() {
   Your browser does not support the video tag.
             </video>
             <video autoPlay loop muted style={{ marginTop:"30px", marginLeft:"0px", height:"230px", borderRadius:"3px" }}>
-  <source src={video5} type="video/mp4" />
+  <source src={video1} type="video/mp4" />
   Your browser does not support the video tag.
             </video>
             </div>
