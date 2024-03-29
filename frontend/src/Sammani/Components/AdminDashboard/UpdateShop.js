@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "../assets/css/headerUI.css"
 import axios from "axios";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSearch, faBookOpen , faTrashAlt,faUser,faBell,faCog} from '@fortawesome/free-solid-svg-icons'; 
+import { faSearch,faUser,faBell,faCog} from '@fortawesome/free-solid-svg-icons'; 
 import { useParams } from "react-router-dom";
 
 
