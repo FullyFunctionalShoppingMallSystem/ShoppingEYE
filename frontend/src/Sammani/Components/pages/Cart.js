@@ -212,7 +212,7 @@ const handleEmailChange = (e) => {
                   <div className="col-md-8 carts" style={{ maxHeight: '685px', overflowY: 'scroll' }}>
                      <div className="cart-header" style={{ position: 'sticky', top: '-34px', background: 'white', zIndex: '1', padding: '17px 0', borderBottom: '14px solid #7eabd8' }}>
                         <div>
-                           <h6><a href="#"> <FontAwesomeIcon icon={faArrowLeft}></FontAwesomeIcon></a>Continue Shopping</h6></div>
+                           <h6><a href="/Categories"> <FontAwesomeIcon icon={faArrowLeft}></FontAwesomeIcon></a>Continue Shopping</h6></div>
                         <br />
                         <div className="row" style={{ height: "30px" }}>
                            <div className="col"><h4><b> <i className="material-icons opacity-15 me-2 text-m">shopping_cart</i>Shopping Cart</b></h4></div>
