@@ -5,9 +5,55 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch,faBell, faCog, faUser, faCalendarWeek } from '@fortawesome/free-solid-svg-icons'; 
 
 function Dashboard(){
-    
+    const [totalOrders, setTotalOrders] = useState(0);
+    const [yesterdayOrders, setYesterdayOrders] = useState(0);
+    const [totalShops, setTotalShops] = useState(0);
+    const [totalContact, setTotalContact] = useState(0);
 
-   return (
+
+//contact
+useEffect(() => {
+    axios.get("http://localhost:8070/contact/")
+      .then(response => {
+        setTotalContact(response.data.length);
+      })
+      .catch(error => {
+        console.error('Error fetching contacts:', error);
+      });
+  }, []);
+
+//shops
+ useEffect(() => {
+        // Fetch shops from backend when component mounts
+        axios.get('http://localhost:8070/shop/')
+          .then(response => {
+            setTotalShops(response.data.length); // Calculate total orders count
+           
+          })
+          .catch(error => {
+            console.error('Error fetching orders:', error);
+          });
+      }, []);
+
+
+//orders
+    useEffect(() => {
+        // Fetch orders from backend when component mounts
+        axios.get('http://localhost:8070/order/')
+          .then(response => {
+            setTotalOrders(response.data.length); // Calculate total orders count
+            const yesterdayOrdersCount = response.data.filter(order =>
+                new Date(order.date).toDateString() === new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toDateString()
+              ).length;
+              setYesterdayOrders(yesterdayOrdersCount);
+          })
+          .catch(error => {
+            console.error('Error fetching orders:', error);
+          });
+      }, []);
+    
+      const percentageDifference = yesterdayOrders !== 0 ? ((totalOrders - yesterdayOrders) / yesterdayOrders) * 100 : 0;
+      return (
     <>
     <div className="g-sidenav-show  bg-gray-200">
         <aside className="sidenav navbar navbar-vertical navbar-expand-xs border-0  my-3 fixed-start ms-3   bg-gradient-dark" id="sidenav-main">
@@ -131,30 +177,37 @@ function Dashboard(){
         <div className="row">
         <div className="col-xl-3 col-sm-6 mb-xl-0 mb-4">
           <div className="card">
-            <div className="card-header p-3 pt-2">
-            <div className="icon icon-lg icon-shape bg-gradient-primary shadow-primary text-center  mt-n4 position-absolute" style={{height:"3.6em",width:"3.6em"}}>
+            <div className="card-header p-3 pt-2" style={{backgroundColor:"#6a48c3"}}>
+            <div className="icon icon-lg icon-shape bg-gradient-dark shadow-dark text-center  mt-n4 position-absolute" style={{height:"3.6em",width:"3.6em"}}>
               <i className="material-icons opacity-10">shopping_cart</i>
               </div>
               <div className="text-end pt-1">
-                <p className="text-sm mb-0 text-capitalize">Today's Orders</p>
-                <h4 className="mb-0">$53k</h4>
+                <p className="text-sm mb-0 text-capitalize" style={{color:"white"}}>Total Orders</p>
+                <h4 className="mb-0" style={{color:"white"}}>{totalOrders}</h4>
               </div>
             </div>
             <hr className="dark horizontal my-0"/>
             <div className="card-footer p-3">
-              <p className="mb-0"><span className="text-success text-sm font-weight-bolder">+55% </span>than last week</p>
-            </div>
+            <p className="mb-0">
+                  {percentageDifference > 0 ? (
+                    <span className="text-success text-sm font-weight-bolder">+{percentageDifference.toFixed(2)}% </span>
+                  ) : (
+                    <span className="text-danger text-sm font-weight-bolder">+{percentageDifference.toFixed(2)}% </span>
+                  )}
+                  than yesterday
+                </p> 
+                 </div>
           </div>
         </div>
         <div className="col-xl-3 col-sm-6 mb-xl-0 mb-4">
           <div className="card">
-            <div className="card-header p-3 pt-2">
+            <div className="card-header p-3 pt-2" style={{backgroundColor:"#6a48c3"}}>
               <div className="icon icon-lg icon-shape bg-gradient-primary shadow-primary text-center  mt-n4 position-absolute" style={{height:"3.6em",width:"3.6em"}}>
-                <i className="material-icons opacity-10">person</i>
+                <i className="material-icons opacity-10">store</i>
               </div>
               <div className="text-end pt-1">
-                <p className="text-sm mb-0 text-capitalize">Today's Users</p>
-                <h4 className="mb-0">2,300</h4>
+                <p className="text-sm mb-0 text-capitalize" style={{color:"white"}}>Shops</p>
+                <h4 className="mb-0" style={{color:"white"}}>{totalShops}</h4>
               </div>
             </div>
             <hr className="dark horizontal my-0"/>
@@ -165,13 +218,13 @@ function Dashboard(){
         </div>
         <div className="col-xl-3 col-sm-6 mb-xl-0 mb-4">
           <div className="card">
-            <div className="card-header p-3 pt-2">
+            <div className="card-header p-3 pt-2" style={{backgroundColor:"#6a48c3"}}>
               <div className="icon icon-lg icon-shape bg-gradient-success shadow-success text-center  mt-n4 position-absolute" style={{height:"3.6em",width:"3.6em"}}>
-                <i className="material-icons opacity-10">person</i>
+                <i className="material-icons opacity-10">contacts</i>
               </div>
               <div className="text-end pt-1">
-                <p className="text-sm mb-0 text-capitalize">New Clients</p>
-                <h4 className="mb-0">3,462</h4>
+                <p className="text-sm mb-0 text-capitalize" style={{color:"white"}}>Contact Issues</p>
+                <h4 className="mb-0" style={{color:"white"}}>{totalContact}</h4>
               </div>
             </div>
             <hr className="dark horizontal my-0"/>
@@ -182,13 +235,13 @@ function Dashboard(){
         </div>
         <div className="col-xl-3 col-sm-6">
           <div className="card">
-            <div className="card-header p-3 pt-2">
+            <div className="card-header p-3 pt-2" style={{backgroundColor:"#6a48c3"}}>
               <div className="icon icon-lg icon-shape bg-gradient-info shadow-info text-center  mt-n4 position-absolute" style={{height:"3.6em",width:"3.6em"}}>
                 <i className="material-icons opacity-10">weekend</i>
               </div>
               <div className="text-end pt-1">
-                <p className="text-sm mb-0 text-capitalize">Sales</p>
-                <h4 className="mb-0">$103,430</h4>
+                <p className="text-sm mb-0 text-capitalize" style={{color:"white"}}>Sales</p>
+                <h4 className="mb-0" style={{color:"white"}}>$103,430</h4>
               </div>
             </div>
             <hr className="dark horizontal my-0"/>
