@@ -14,6 +14,17 @@ function Dashboard(){
 //users
 
 
+//contact
+useEffect(() => {
+    axios.get("http://localhost:8070/contact/")
+      .then(response => {
+        setTotalContact(response.data.length);
+      })
+      .catch(error => {
+        console.error('Error fetching contacts:', error);
+      });
+  }, []);
+
 //shops
  useEffect(() => {
         // Fetch shops from backend when component mounts
