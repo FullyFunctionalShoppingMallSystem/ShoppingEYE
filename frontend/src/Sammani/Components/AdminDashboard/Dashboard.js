@@ -9,18 +9,10 @@ function Dashboard(){
     const [yesterdayOrders, setYesterdayOrders] = useState(0);
     const [totalShops, setTotalShops] = useState(0);
     const [totalContact, setTotalContact] = useState(0);
+    const [totalPeople, setTotalPeople] = useState(0); 
 
+//users
 
-//contact
-useEffect(() => {
-    axios.get("http://localhost:8070/contact/")
-      .then(response => {
-        setTotalContact(response.data.length);
-      })
-      .catch(error => {
-        console.error('Error fetching contacts:', error);
-      });
-  }, []);
 
 //shops
  useEffect(() => {
@@ -237,11 +229,11 @@ useEffect(() => {
           <div className="card">
             <div className="card-header p-3 pt-2" style={{backgroundColor:"#6a48c3"}}>
               <div className="icon icon-lg icon-shape bg-gradient-info shadow-info text-center  mt-n4 position-absolute" style={{height:"3.6em",width:"3.6em"}}>
-                <i className="material-icons opacity-10">weekend</i>
+                <i className="material-icons opacity-10">people</i>
               </div>
               <div className="text-end pt-1">
-                <p className="text-sm mb-0 text-capitalize" style={{color:"white"}}>Sales</p>
-                <h4 className="mb-0" style={{color:"white"}}>$103,430</h4>
+                <p className="text-sm mb-0 text-capitalize" style={{color:"white"}}>Users</p>
+                <h4 className="mb-0" style={{color:"white"}}>{totalPeople}</h4>
               </div>
             </div>
             <hr className="dark horizontal my-0"/>
