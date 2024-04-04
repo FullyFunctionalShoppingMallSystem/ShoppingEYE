@@ -13,6 +13,7 @@ import UpdateShop from "./Sammani/Components/AdminDashboard/UpdateShop.js";
 import Mimosa from "./Sammani/Components/pages/Mimosa.js";
 import ViewContact from "./Sammani/Components/AdminDashboard/ViewContact.js";
 import Search from "./Sammani/Components/pages/Search.js";
+import Dashboard from "./Sammani/Components/AdminDashboard/Dashboard.js";
 
 
 
@@ -38,6 +39,7 @@ function App() {
          <Route path="/Mimosa" element={<Mimosa />} />
          <Route path="/viewContact/:issueId" element={<ViewContact/>} />
          <Route path="/VirtualSearch" element={<Search />} />
+         <Route path="/dashboard" element={<Dashboard />} />
          
 
        

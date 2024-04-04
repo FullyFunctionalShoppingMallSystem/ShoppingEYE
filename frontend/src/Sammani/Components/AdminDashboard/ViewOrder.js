@@ -195,7 +195,7 @@ const handleUpdateButtonClick = () => {
     <div className="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
       <ul className="navbar-nav">
         <li className="nav-item">
-          <a className="nav-link text-white " href="l">
+          <a className="nav-link text-white "  href="/dashboard">
             <div className="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i className="material-icons opacity-10">dashboard</i>
             </div>
