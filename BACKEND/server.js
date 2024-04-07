@@ -51,6 +51,8 @@ console.log("Mongodb Connection success!");
  const orderRouter = require("./routes/order.js");
  app.use("/order",orderRouter);
 
+ const peopleRouter = require("./routes/Users.js");
+app.use("/users", peopleRouter);
 
 
  app.listen(PORT, () => {
