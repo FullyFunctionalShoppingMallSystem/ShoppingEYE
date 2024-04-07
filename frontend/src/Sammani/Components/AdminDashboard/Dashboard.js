@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import "../assets/css/headerUI.css"
 import axios from "axios";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSearch,faBell, faCog, faUser, faCalendarWeek } from '@fortawesome/free-solid-svg-icons'; 
+import { faSearch,faBell, faCog, faUser, faCalendarWeek } from '@fortawesome/free-solid-svg-icons';
+
 
 function Dashboard(){
     const [totalOrders, setTotalOrders] = useState(0);
@@ -279,7 +280,7 @@ useEffect(() => {
     </div>
      </main> 
      </div>
-
+    
     </>
   );
 }

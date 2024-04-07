@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes  } from "react-router-dom";
 import ContactUs from "./Sammani/Components/pages/ContactUs.js";
 import NavBar from "./Sammani/Components/NavBar.js";
 import ContactTable from "./Sammani/Components/AdminDashboard/ContactTable.js";
@@ -14,6 +14,8 @@ import Mimosa from "./Sammani/Components/pages/Mimosa.js";
 import ViewContact from "./Sammani/Components/AdminDashboard/ViewContact.js";
 import Search from "./Sammani/Components/pages/Search.js";
 import Dashboard from "./Sammani/Components/AdminDashboard/Dashboard.js";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 
 
@@ -41,7 +43,9 @@ function App() {
          <Route path="/VirtualSearch" element={<Search />} />
          <Route path="/dashboard" element={<Dashboard />} />
          
-
+        
+     
+   
        
        
         

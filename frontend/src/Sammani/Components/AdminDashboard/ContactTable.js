@@ -6,6 +6,8 @@ import { faSearch, faBookOpen , faTrashAlt,faUser,faBell,faCog, faDownload} from
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import headerImageURL from '../assets/img/logo.png';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 
 
@@ -111,15 +113,26 @@ function ContactTable(){
   // Delete
   const handleDelete = async (issueId) => {
     try {
+      // Delete contact from the server
       await axios.delete(`http://localhost:8070/contact/delete/${issueId}`);
-      setContacts(contacts.filter(contact => contact.issueId !== issueId));
+      // Update local state to remove the deleted contact
+      setContacts(prevContacts => prevContacts.filter(contact => contact.issueId !== issueId));
+      // Update filteredContacts as well to reflect the change
+      setFilteredContacts(prevContacts => prevContacts.filter(contact => contact.issueId !== issueId));
 
-      window.location.reload();
+      // Show success toast message
+      toast.success("Contact deleted successfully!", {
+        style: {
+          background: "black",
+          color: "white"
+        },
+      });
     } catch (error) {
-      console.error('Error deleting contact:', error);
+      console.error("Error deleting contact:", error);
+      // Show error toast message
+      toast.error("Error deleting contact. Please try again later.");
     }
   };
-
     return(
         <>
 
@@ -329,7 +342,7 @@ function ContactTable(){
     </div>
      </main> 
      </div>
-
+     <ToastContainer />
         </>
     )
 

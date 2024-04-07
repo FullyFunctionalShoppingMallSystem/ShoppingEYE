@@ -6,6 +6,8 @@ import { faSearch,faUser,faBell,faCog} from '@fortawesome/free-solid-svg-icons';
 import { useParams } from "react-router-dom";
 
 
+
+
 function UpdateShop(){
 
     const { storeID } = useParams(); // Get the storeID from the URL parameters
@@ -112,8 +114,8 @@ function UpdateShop(){
             }
     
             await axios.put(`http://localhost:8070/shop/update/${formData.storeID}`, form);
-            alert("Shop details updated successfully");
-            window.location.href = "/Shops";
+            
+           
             // Reset form fields after successful update if needed
             setFormData({
                 storeID: "",
@@ -125,7 +127,7 @@ function UpdateShop(){
                 email: "",
                 image: null
             });
-    
+            window.location.href = "/Shops";
         } catch (error) {
             console.error("Error updating shop details:", error);
             alert("Error updating shop details. Please try again.");
