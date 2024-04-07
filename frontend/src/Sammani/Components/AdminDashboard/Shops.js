@@ -6,6 +6,8 @@ import { faEdit,faDownload,faSearch,faPlus, faTrashAlt,faUser,faBell,faCog, faBo
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import headerImageURL from '../assets/img/logo.png';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 
 function Shops(){
@@ -118,7 +120,12 @@ const handleDeleteShop = (storeID) => {
     .then(response => {
       // Filter out the deleted shop from the state
       setShops(shops.filter(shop => shop.storeID !== storeID));
-      alert("Shop deleted successfully.");
+      toast.success("Shop deleted successfully!", {
+        style: {
+          background: "black",
+          color: "white"
+        },
+      });
     })
     .catch(error => {
       console.error('Error deleting shop:', error);
@@ -347,7 +354,7 @@ const handleDeleteShop = (storeID) => {
     </div>
      </main> 
      </div>
-
+<ToastContainer/>
         </>
     )
 

@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import "../assets/css/headerUI.css"
 import axios from "axios";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSearch,faBell, faCog, faUser, faCalendarWeek } from '@fortawesome/free-solid-svg-icons'; 
+import { faSearch,faBell, faCog, faUser, faCalendarWeek } from '@fortawesome/free-solid-svg-icons';
+
 
 function Dashboard(){
     const [totalOrders, setTotalOrders] = useState(0);
@@ -11,7 +12,16 @@ function Dashboard(){
     const [totalContact, setTotalContact] = useState(0);
     const [totalPeople, setTotalPeople] = useState(0); 
 
-//users
+    // Fetch total number of users
+    useEffect(() => {
+      axios.get("http://localhost:8070/users/")
+        .then(response => {
+          setTotalPeople(response.data.length);
+        })
+        .catch(error => {
+          console.error('Error fetching total users:', error);
+        });
+    }, []);
 
 
 //contact
@@ -270,7 +280,7 @@ useEffect(() => {
     </div>
      </main> 
      </div>
-
+    
     </>
   );
 }
