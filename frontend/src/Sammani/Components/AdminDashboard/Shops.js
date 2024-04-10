@@ -284,7 +284,7 @@ const handleDeleteShop = (storeID) => {
         <th  style={{color:"black"}}className="text-uppercase  text-sm  opacity-7 ps-2">email </th>
         <th  style={{color:"black"}}className="text-uppercase  text-sm  opacity-7 ps-2">mobile </th>
         <th  style={{color:"black"}}className="text-uppercase  text-sm  opacity-7 ps-2">last Updated </th>
-        <th ><button onClick={generatePDF}  className="btn btn-info"> <FontAwesomeIcon icon={faDownload}></FontAwesomeIcon>  Download PDF</button></th>
+        <th ><button onClick={generatePDF}  className="btn btn-info"> <FontAwesomeIcon icon={faDownload}></FontAwesomeIcon>  PDF</button></th>
       </tr>
      
     </thead>
