@@ -46,9 +46,9 @@ function ViewOrder() {
       // Add more order details as needed
     
       // Add main order table to PDF
-      const mainTableData = [[order.orderId, order.nic, order.date, calculateTotalQuantity(), calculateItemPrices(), order.deliveryFee, calculateTotalPrice()]];
+      const mainTableData = [[order.orderId, order.nic, order.date, calculateTotalQuantity(), order.subTotal,order.discount?.discount || "0.00", order.deliveryFee, order.total]];
       doc.autoTable({
-        head: [['Order ID', 'NIC', 'Purchased Date', 'Items', 'Item Prices', 'Delivery Fee', 'Total Price']],
+        head: [['Order ID', 'NIC', 'Purchased Date', 'Items', 'Sub Total', 'Discount', 'Delivery Fee', 'Total Price']],
         body: mainTableData,
         startY: 50
       });
@@ -106,30 +106,7 @@ function ViewOrder() {
   };
 
 
-  const calculateItemPrices = () => {
-    let totalPrice = 0;
-    if (order && order.details) {
-      order.details.forEach((item) => {
-        totalPrice += parseFloat(item.price);
-      });
-    }
-    return totalPrice.toFixed(2); // Adjust decimal precision as needed
-  };
-
-
-  // Function to calculate total price including delivery fee
-  const calculateTotalPrice = () => {
-    let totalPrice = 0;
-    if (order && order.details) {
-      order.details.forEach((item) => {
-        totalPrice += parseFloat(item.price);
-      });
-    }
-    if (order && order.deliveryFee) {
-      totalPrice += parseFloat(order.deliveryFee);
-    }
-    return totalPrice.toFixed(2); // Adjust decimal precision as needed
-  };
+  
 
 //check box 
 
@@ -324,20 +301,20 @@ const handleUpdateButtonClick = () => {
                 
     <thead style={{backgroundColor:"#d785b354"}}>
       <tr>
-        
-        <th style={{color:"black"}} className="text-uppercase text-sm  opacity-7 ps-2">Order id</th>
+      <th style={{color:"black"}} className="text-uppercase  text-sm  opacity-7 ps-2">ID</th>
         <th style={{color:"black"}} className="text-uppercase  text-sm  opacity-7 ps-2">nic</th>
         <th  style={{color:"black"}}className="text-uppercase  text-sm  opacity-7 ps-2">purchased date</th>
         <th  style={{color:"black"}}className="text-uppercase  text-sm  opacity-7 ps-2"> ITEMS</th>
-        <th  style={{color:"black"}}className="text-uppercase  text-sm  opacity-7 ps-2"> ITEM PRICES</th>
+        <th  style={{color:"black"}}className="text-uppercase  text-sm  opacity-7 ps-2"> Sub total</th>
+        <th style={{color:"black"}} className="text-uppercase text-sm  opacity-7 ps-2">Discount</th>
         <th  style={{color:"black"}}className="text-uppercase  text-sm  opacity-7 ps-2">delivery Fee</th>
         <th  style={{color:"black"}}className="text-uppercase  text-sm  opacity-7 ps-2">total price</th>
         <th className="text-secondary opacity-7"></th>
       </tr>
     </thead>
     <tbody><tr >
-            <td>
-                <h6 style={{color:"black"}} className="mb-0 text-sm">{order.orderId}</h6>
+    <td className="align-justify text-justify text-sm">
+                      <h6  className="mb-0 text-sm">{order.orderId}</h6>
             </td>
             <td className="align-justify text-justify text-sm">
                 <p style={{fontSize:"14px"}} className="font-weight-bold mb-0">{order.nic}</p>
@@ -349,13 +326,17 @@ const handleUpdateButtonClick = () => {
                 <p style={{fontSize:"14px"}} className="font-weight-bold mb-0"> {calculateTotalQuantity()}</p>
             </td>
             <td className="align-justify text-justify text-sm">
-                <p style={{fontSize:"14px"}} className="font-weight-bold mb-0">{calculateItemPrices()}</p>
+                <p style={{fontSize:"14px"}} className="font-weight-bold mb-0">{order.subTotal}</p>
+            </td>
+            <td>
+            <p  style={{fontSize:"14px"}} className="font-weight-bold mb-0"> {order.discount?.discount || "0.00"}</p>
+              
             </td>
             <td className="align-justify text-justify text-sm">
                 <p style={{fontSize:"14px"}} className="font-weight-bold mb-0">{order.deliveryFee}</p>
             </td>
             <td className="align-justify text-justify text-sm">
-                <p style={{fontSize:"14px"}} className="font-weight-bold mb-0">{calculateTotalPrice()}</p>
+                <p style={{fontSize:"14px"}} className="font-weight-bold mb-0">{order.total}</p>
             </td>
             <td className="align-justify text-justify text-sm">
                <input   onChange={(e) => handleMasterCheckboxChange(e.target.checked)}  checked={masterCheckboxChecked}  type="checkbox" style={{ width: '20px', height: '20px' }} />

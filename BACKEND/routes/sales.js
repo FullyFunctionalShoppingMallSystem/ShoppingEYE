@@ -59,5 +59,21 @@ router.route("/delete/:id").delete(async (req, res) => {
     }
   });
 
+  // Fetch a code by code value
+router.route("/:code").get(async (req, res) => {
+  try {
+      const codeValue = req.params.code;
+      const code = await Sales.findOne({ code: codeValue });
+      
+      if (code) {
+          res.json(code); // Return the code if found
+      } else {
+          res.status(404).json({ message: "Code not found" });
+      }
+  } catch (error) {
+      console.error("Error fetching code by code value:", error);
+      res.status(500).json({ message: "Internal server error" });
+  }
+});
 
 module.exports = router;
