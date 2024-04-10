@@ -5,7 +5,7 @@ let Order =require("../models/Order");
 
 //Create function
 router.route("/addOrder").post((req, res) => {
-    const { orderId, deliveryFee, Code, status, nic, date,email, details } = req.body;
+    const { orderId, deliveryFee, Code, status, nic, date,email, details,total,subTotal,discount } = req.body;
 
     // Check if the 'nic' field is provided in the request body
     if (!nic) {
@@ -32,7 +32,10 @@ router.route("/addOrder").post((req, res) => {
         status,
         nic,
         date,
-        email
+        email,
+        total,
+        subTotal,
+        discount
     });
 
     newOrder.save()

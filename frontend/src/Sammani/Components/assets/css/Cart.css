@@ -73,7 +73,7 @@ a{
     margin-top: 3.5rem;
 }
 h5{
-    margin-top: 4vh;
+    margin-top: 1vh;
 }
 hr {
     margin-top: 1.25rem;
@@ -82,7 +82,7 @@ hr {
     background-color: black; /* Set background color to black */
 }
 form{
-    padding: 2vh 0;
+   
 }
 select{
     border: 1px solid rgba(0, 0, 0, 0.137);
@@ -95,7 +95,7 @@ select{
 input{
     border: 1px solid rgba(0, 0, 0, 0.137);
     padding: 1vh;
-    margin-bottom: 2vh;
+    margin-bottom: 1vh;
     outline: none;
     width: 100%;
     background-color: rgb(247, 247, 247);
@@ -110,7 +110,6 @@ input:focus::-webkit-input-placeholder
     color: white;
     width: 100%;
     font-size: 0.7rem;
-    margin-top: 4vh;
     padding: 1vh;
     border-radius: 0;
 }

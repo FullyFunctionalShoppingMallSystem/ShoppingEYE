@@ -14,7 +14,47 @@ import Ads2 from "./Ads2.js";
 
 
 function Cart(){
+   const [code, setCode] = useState('');
+   const [discount, setDiscount] = useState(null);
 
+ 
+   const handleInputChange = async (e) => {
+      const { name, value } = e.target;
+      if (name === 'code') {
+        setCode(value);
+        try {
+          // Send request to backend to check if code is valid
+          const response = await axios.get(`http://localhost:8070/code/${value}`);
+          const data = response.data;
+        
+          setDiscount(data.discount);
+         
+
+        } catch (error) {
+          // If code is invalid, clear the discount
+          setDiscount(null);
+        }
+      }
+      // Add other input handling logic here if needed
+    };
+  
+  
+ 
+   useEffect(() => {
+     if (code) {
+       axios.get(`http://localhost:8070/code/${code}`)
+         .then(response => {
+           if (response.data) {
+             setDiscount(response.data.discount);
+           } else {
+             setDiscount(""); // Clear the discount if code not found
+           }
+         })
+         .catch(error => {
+           console.error('Error fetching code:', error);
+         });
+     }
+   }, [code]);
 
 
    
@@ -32,7 +72,6 @@ function Cart(){
 
 //Fetch data 
 const [nic, setNic] = useState("");
-    const [code, setCode] = useState("");
     const [email, setEmail] = useState("");
     const [nicError, setNicError] = useState("");
     const [emailError, setEmailError] = useState("");
@@ -60,91 +99,115 @@ const [nic, setNic] = useState("");
 
 
      const handleCheckout = async () => {
-      try {
-          // Check if the cart is empty
-          if (data.length === 0) {
-              alert("Cart is empty. Please add items to proceed.");
-              return;
-          }
-  
-          validateNIC();
-          validateEmail();
-  
-          if (nicError || emailError) {
-              return; // Don't proceed if there are validation errors
-          }
-  
-          // Display toast message indicating checkout process has started
-          toast.info('Processing order...', {
-              position: "top-right",
-              autoClose: false, // Do not auto-close, keep the message until the process is completed
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              style: {
-                  backgroundColor: "green", // Example background color
-                  color: "white" // Example text color
-              }
-          });
-  
-          const orderId = generateShortId();
-          const orderData = {
-              orderId,
-              nic,
-              code,
-              email,
-              deliveryFee: "350.00", // Make sure it's a string
-              details: data.map(({ itemName, type, price, shopName, itemId, quantity,date, size }) => ({
-                  itemName,
-                  type,
-                  price,
-                  shopName,
-                  itemId,
-                  quantity,
-                  date,
-                  size
-              }))
-          };
-  
-          const response = await axios.post("http://localhost:8070/order/addOrder", orderData);
-          console.log(response.data); // Log success message
-  
-          // Add OverView entry
-           const overviewData = {
-           orderId,
-           description: "New Order Added",
-           date :new Date().toISOString()
-            };
-await axios.post("http://localhost:8070/overview/addOverView", overviewData);
+    try {
+        // Check if the cart is empty
+        if (data.length === 0) {
+            alert("Cart is empty. Please add items to proceed.");
+            return;
+        }
 
-          // Close the previous toast message indicating the checkout process has started
-          toast.dismiss(); // Close the previous toast message
-  
-          // Display success toast message
-          toast.success('Order added successfully!', {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: true,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              style: {
-                  backgroundColor: "black", // Example background color
-                  color: "white" // Example text color
-              }
-          });
-  
-          // Clear the cart data after successful checkout
-          setData([]);
-  
-      } catch (error) {
-          console.error("Error checking out:", error);
-          alert("Error adding order:", error);
-      }
-  }
+        validateNIC();
+        validateEmail();
+
+        if (nicError || emailError) {
+            return; // Don't proceed if there are validation errors
+        }
+
+       
+
+        if (code) {
+            // Check if the provided code is valid
+            try {
+                const response = await axios.get(`http://localhost:8070/code/${code}`);
+                const isValid = response.data !== null; // Assuming the backend returns null for invalid codes
+                if (!isValid) {
+                    alert("Please enter a valid coupon code.");
+                    return;
+                }
+                // If valid, calculate discount amount
+            } catch (error) {
+                console.error("Error checking coupon code:", error);
+                alert("An error occurred while checking the coupon code. Please try again.");
+                return;
+            }
+        }
+        const subTotal = (data.reduce((acc, item) => acc + parseFloat(item.price), 0) + 350).toFixed(2);
+        const total = ((data.reduce((acc, item) => acc + parseFloat(item.price), 0)) + 350 - (discount !== null ? ((parseFloat(discount) / 100) * data.reduce((acc, item) => acc + parseFloat(item.price), 0)) : 0)).toFixed(2);
+
+        // Display toast message indicating checkout process has started
+        toast.info('Processing order...', {
+            position: "top-right",
+            autoClose: false, // Do not auto-close, keep the message until the process is completed
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: {
+                backgroundColor: "green", // Example background color
+                color: "white" // Example text color
+            }
+        });
+
+        const orderId = generateShortId();
+        const orderData = {
+            orderId,
+            nic,
+            code,
+            email,
+            deliveryFee: "350.00", // Make sure it's a string 
+            discount,
+            total,
+            subTotal,
+            details: data.map(({ itemName, type, price, shopName, itemId, quantity, date, size }) => ({
+                itemName,
+                type,
+                price,
+                shopName,
+                itemId,
+                quantity,
+                date,
+                size
+            }))
+        };
+
+        const response = await axios.post("http://localhost:8070/order/addOrder", orderData);
+        console.log(response.data); // Log success message
+
+        // Add OverView entry
+        const overviewData = {
+            orderId,
+            description: "New Order Added",
+            date: new Date().toISOString()
+        };
+        await axios.post("http://localhost:8070/overview/addOverView", overviewData);
+
+        // Close the previous toast message indicating the checkout process has started
+        toast.dismiss(); // Close the previous toast message
+
+        // Display success toast message
+        toast.success('Order added successfully!', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: {
+                backgroundColor: "black", // Example background color
+                color: "white" // Example text color
+            }
+        });
+
+        // Clear the cart data after successful checkout
+        setData([]);
+
+    } catch (error) {
+        console.error("Error checking out:", error);
+        alert("Error adding order:", error);
+    }
+}
 
 
    //delete
@@ -265,26 +328,27 @@ const handleEmailChange = (e) => {
                      <div><h5><b>Summary</b></h5></div>
                      <hr />
                      <div className="row">
-                        <div className="col" style={{ paddingLeft: "0" }}>ITEMS</div>
-                        <div className="col" style={{ paddingLeft: "0" }}>{data.length}</div>
-                        <div className="col text-right">Rs {data.reduce((acc, item) => acc + parseFloat(item.price), 0).toFixed(2)}</div>
+                        <div className="col" style={{fontWeight: "bold", paddingLeft: "0" }}>ITEMS</div>
+                        <div className="col" style={{fontWeight: "bold", paddingLeft: "0" }}>{data.length}</div>
+                        <div className="col text-right" style={{fontWeight:"bold"}}>Rs {((data.reduce((acc, item) => acc + parseFloat(item.price), 0)) + 350 - (discount !== null ? ((parseFloat(discount) / 100) * data.reduce((acc, item) => acc + parseFloat(item.price), 0)) : 0)).toFixed(2)}
+</div>
                      </div>
-                     <br />
+                    
                      <form>
-                        <p style={{fontSize:"14px", marginBottom:"2px"}}>SHIPPING</p>
+                        <p style={{fontSize:"14px", marginBottom:"2px", marginTop:"20px"}}>SHIPPING</p>
                         <select><option className="text-muted">Standard-Delivery- 350.00</option></select>
                         <p style={{fontSize:"14px", marginBottom:"2px"}}> ENTER NIC</p>
                         <input
                         name="nic"
-                        placeholder="Enter your nic"
+                        placeholder="Enter your NIC"
                         value={nic}
                         onChange={handleNicChange}
                         onBlur={validateNIC} // Validate NIC onBlur
                         style={{ border: nicError ? "1px solid red" : "" }} // Apply red border if there's an error
                         required
                     />
-                    {nicError && <p style={{ color: "red", fontSize: "12px" }}>{nicError}</p>}
-                    <br></br>
+                    {nicError && <p style={{ color: "red", fontSize: "12px", marginBottom:"10px" }}>{nicError}</p>}
+                  
                         <p style={{fontSize:"14px", marginBottom:"2px"}}>ENTER EMAIL</p>
                         <input
                         type="email"
@@ -296,13 +360,35 @@ const handleEmailChange = (e) => {
                         style={{ border: emailError ? "1px solid red" : "" }} // Apply red border if there's an error
                         required
                     />
-                    {emailError && <p style={{ color: "red", fontSize: "12px" }}>{emailError}</p>}
+                    {emailError && <p style={{ color: "red", fontSize: "12px", marginBottom:"10px" }}>{emailError}</p>}
                         <p style={{fontSize:"14px", marginBottom:"2px"}}>GIVE COUPON CODE</p> 
-                        <input name="code" placeholder="Enter code"value={code} onChange={(e) => setCode(e.target.value)}/> 
+                        <input name="code" placeholder="Enter code"value={code} onChange={handleInputChange} /> 
+                        {code && discount === null && <p style={{  color: "red", fontSize: "12px", marginBottom:"10px" }}>Invalid code</p>}
                      </form>
+                     <div className="row" style={{ borderTop: "3px solid black", padding: "1vh 0" }}>
+                        <div className="col" style={{fontSize:"14px", fontWeight: 'bold'}}>SUB TOTAL </div>
+                        <div className="col text-right">Rs {(data.reduce((acc, item) => acc + parseFloat(item.price), 0) + 350).toFixed(2)}</div>
+                     </div>
+                     <div className="row" style={{ padding: "1vh 0" }}>
+    <div className="col" style={{ fontSize: "14px", fontWeight: "bold" }}>DISCOUNT</div>
+    <div className="col text-right">
+    {code ? (
+    discount !== null ? (
+        <span style={{ color: '#112174' }}>
+            Rs {((parseFloat(discount) / 100) * data.reduce((acc, item) => acc + parseFloat(item.price), 0)).toFixed(2)}
+        </span>
+    ) : (
+      <span>Rs 0.00</span>
+    )
+) : (
+    <span>Rs 0.00</span>
+)}
+    </div>
+</div>
                      <div className="row" style={{ borderTop: "3px solid black", padding: "2vh 0" }}>
-                        <div className="col" style={{fontSize:"14px"}}>TOTAL PRICE</div>
-                        <div className="col text-right">Rs {data.reduce((acc, item) => acc + parseFloat(item.price), 0).toFixed(2)}</div>
+                        <div className="col" style={{fontSize:"14px", fontWeight: 'bold'}}>TOTAL </div>
+                        <div className="col text-right">Rs {((data.reduce((acc, item) => acc + parseFloat(item.price), 0)) + 350 - (discount !== null ? ((parseFloat(discount) / 100) * data.reduce((acc, item) => acc + parseFloat(item.price), 0)) : 0)).toFixed(2)}
+</div>
                      </div>
                      <button className="btnn" onClick={handleCheckout} >CHECKOUT</button>
                   </div>

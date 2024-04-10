@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const salesSchema = new Schema({
     code :{
         type : String,
+        unique: true,
        
     },
     description :{

@@ -39,6 +39,19 @@ const orderSchema = new Schema({
         type: String,
         required: true
     },
+    total: {
+        type: String,
+       
+    },
+    subTotal: {
+        type: String,
+        
+    },
+    discount: {
+        type: String,
+       
+    },
+
     date: {
         type: String,
         default: function() {
