@@ -57,6 +57,8 @@ app.use("/users", peopleRouter);
 const overviewRouter = require("./routes/overview.js");
 app.use("/overview", overviewRouter);
 
+const codeRouter = require("./routes/sales.js");
+app.use("/code", codeRouter);
 
 
  app.listen(PORT, () => {
