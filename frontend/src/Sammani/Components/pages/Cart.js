@@ -111,6 +111,14 @@ const [nic, setNic] = useState("");
           const response = await axios.post("http://localhost:8070/order/addOrder", orderData);
           console.log(response.data); // Log success message
   
+          // Add OverView entry
+           const overviewData = {
+           orderId,
+           description: "New Order Added",
+           date :new Date().toISOString()
+            };
+await axios.post("http://localhost:8070/overview/addOverView", overviewData);
+
           // Close the previous toast message indicating the checkout process has started
           toast.dismiss(); // Close the previous toast message
   

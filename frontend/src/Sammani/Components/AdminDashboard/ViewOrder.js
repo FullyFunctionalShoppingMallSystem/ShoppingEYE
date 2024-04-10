@@ -167,17 +167,25 @@ const handleCheckboxChange = (index, isChecked) => {
 //update status
 
 const handleUpdateButtonClick = () => {
-    // Update the status
-    const updatedStatus = "All items checked";
-    axios.put(`http://localhost:8070/order/update/${orderId}`, { status: updatedStatus })
-        .then(response => {
-            window.location.href = "/Orders";
-        })
-        .catch(error => {
-            console.error('Error updating order status:', error);
-        });
+  // Update the status
+  const updatedStatus = "All items checked";
+  axios.put(`http://localhost:8070/order/update/${orderId}`, { status: updatedStatus })
+      .then(response => {
+         
+          const description = "All Items Checked";
+          const date = new Date().toISOString();
+          axios.post("http://localhost:8070/overview/addOverView", { orderId, description, date })
+              .then(() => {
+                  window.location.href = "/Orders";
+              })
+              .catch(error => {
+                  console.error('Error adding entry to OverView table:', error);
+              });
+      })
+      .catch(error => {
+          console.error('Error updating order status:', error);
+      });
 };
-
 
     return(
         <>

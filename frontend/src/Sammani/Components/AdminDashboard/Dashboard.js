@@ -3,6 +3,9 @@ import "../assets/css/headerUI.css"
 import axios from "axios";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch,faBell, faCog, faUser, faCalendarWeek } from '@fortawesome/free-solid-svg-icons';
+import Chart from "chart.js/auto";
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
 
 
 function Dashboard(){
@@ -11,6 +14,154 @@ function Dashboard(){
     const [totalShops, setTotalShops] = useState(0);
     const [totalContact, setTotalContact] = useState(0);
     const [totalPeople, setTotalPeople] = useState(0); 
+    const [currentOrders, setCurrentOrders] = useState([]);
+    const [overview, setOverview] = useState([]);
+    const [selectedDate, setSelectedDate] = useState(new Date());
+
+//overview
+useEffect(() => {
+       
+  axios.get("http://localhost:8070/overview/") // Fetch OverView entries
+      .then(response => {
+          const overview = response.data;
+          setOverview(overview);
+      })
+      .catch(error => {
+          console.error('Error fetching overview:', error);
+      });
+}, []);
+
+
+
+//chart
+const [orderCountsByDayOfWeek, setOrderCountsByDayOfWeek] = useState({});
+const [lastUpdateTime, setLastUpdateTime] = useState("");
+
+useEffect(() => {
+  // Fetch orders from backend when component mounts
+  axios.get("http://localhost:8070/order/")
+    .then(response => {
+      const orders = response.data;
+
+      // Group orders by day of the week
+      const ordersByDayOfWeek = {};
+      orders.forEach(order => {
+        const date = new Date(order.date);
+        const dayOfWeek = date.toLocaleDateString("en-US", { weekday: "long" });
+        ordersByDayOfWeek[dayOfWeek] = (ordersByDayOfWeek[dayOfWeek] || 0) + 1;
+      });
+      setOrderCountsByDayOfWeek(ordersByDayOfWeek);
+      setLastUpdateTime(new Date().toLocaleString());
+    })
+    .catch(error => {
+      console.error('Error fetching orders:', error);
+    });
+}, []);
+
+useEffect(() => {
+  // Fetch orders from backend when component mounts
+  axios.get("http://localhost:8070/order/")
+    .then(response => {
+      const orders = response.data;
+      const currentDate = new Date().toLocaleDateString("en-US");
+
+      // Filter orders made on the current date
+      const ordersToday = orders.filter(order => {
+        const orderDate = new Date(order.date).toLocaleDateString("en-US");
+        return orderDate === currentDate;
+      });
+
+      setCurrentOrders(ordersToday);
+      setLastUpdateTime(new Date().toLocaleString());
+    })
+    .catch(error => {
+      console.error('Error fetching orders:', error);
+    });
+}, []);
+
+
+useEffect(() => {
+  // Clear orders after 24 hours
+  const timer = setTimeout(() => {
+    setCurrentOrders([]);
+  }, 86400000); // 24 hours in milliseconds
+
+  return () => clearTimeout(timer);
+}, [currentOrders]);
+
+
+useEffect(() => {
+  // Chart data
+  const data = {
+      labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat","Sun"],
+      datasets: [
+          {
+              label: "Sales",
+              tension: 0.4,
+              borderWidth: 0,
+              borderRadius: 4,
+              borderSkipped: false,
+              backgroundColor: "rgba(255, 255, 255, .8)",
+              data: Object.values(orderCountsByDayOfWeek),
+              maxBarThickness: 6
+             
+          },
+      ],
+  };
+
+  // Chart options
+  const options = {
+      scales: {
+          y: {
+              beginAtZero: true,
+              ticks: {
+                  color: "white", // Set the color of the y-axis labels to white
+                  stepSize: 2, 
+                },
+                grid: {
+                  color: "rgba(255, 255, 255, 0.3)", // Set the color of the grid lines to white with 30% opacity
+                  borderDash: [3, 3], // Set the border dash style to create dotted lines
+                },
+          },
+          x: {
+              ticks: {
+                color: "white", // Set the color of the x-axis labels to white
+              },
+              grid: {
+                color: "rgba(255, 255, 255, 0.3)", // Set the color of the grid lines to white with 30% opacity
+                borderDash: [3, 3], // Set the border dash style to create dotted lines
+              },
+            },
+          },
+          plugins: {
+            legend: {
+              display: false, // Hide legend
+            },
+            tooltip: {
+              enabled: false, // Disable tooltips
+            },
+          },
+        };
+
+  // Get chart canvas
+  const ctx = document.getElementById("chart-line");
+
+  // Destroy previous chart instance if exists
+  const existingChartInstance = Chart.getChart(ctx);
+  if (existingChartInstance) {
+      existingChartInstance.destroy();
+  }
+
+  // Create new chart instance
+  new Chart(ctx, {
+      type: "bar",
+      data: data,
+      options: options,
+  });
+}, [orderCountsByDayOfWeek]);
+
+
+
 
     // Fetch total number of users
     useEffect(() => {
@@ -64,6 +215,11 @@ useEffect(() => {
             console.error('Error fetching orders:', error);
           });
       }, []);
+
+      const handleDateChange = (date) => {
+        setSelectedDate(date);
+        // You can perform any action here when the date changes
+    };
     
       const percentageDifference = yesterdayOrders !== 0 ? ((totalOrders - yesterdayOrders) / yesterdayOrders) * 100 : 0;
       return (
@@ -265,15 +421,88 @@ useEffect(() => {
         </div>
       </div>
 
+      <div className="row mt-4">
+       
+      <div className="col-lg-4 col-md-6 mt-4 mb-4">
+          <div className="card z-index-2  ">
+            <div className="card-header p-0 position-relative mt-n4 mx-2 z-index-2 bg-transparent">
+            <div className="bg-gradient-primary shadow-primary border-radius-lg py-5 pe-1">
+                <div className="chart">
+                  <canvas id="chart-line" className="chart-canvas" height="150"></canvas>
+                </div>
+              </div>
+            </div>
+            <div className="card-body">
+              <h6 className="mb-0 "> Daily Sales </h6>
+              <hr className="dark horizontal"/>
+              <div className="d-flex ">
+                <i className="material-icons text-sm my-auto me-1">schedule</i>
+                <p className="mb-0 text-sm"> {lastUpdateTime} </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="col-lg-4 col-md-6" style={{height:"370px"}}>
+          <div className="card h-100">
+            <div className="card-header pb-0" style={{padding:" 0.5rem"}} >
+              <h6>Orders overview</h6>
+              <p class="text-sm">
+              Today's Overview: {new Date().toLocaleDateString()}
+              </p>
+             
+              <div style={{ maxHeight: "270px", overflowY: "auto" , width:"270px" }}>
+              <table>
+            
+                <tbody>
+             {overview.map((item, index) => (
+                          <tr key={index} style={{height:"50px"}}>
+ <td style={{ backgroundColor: item.description === 'All Items Checked' ? '#0080153b' : item.description === 'Order Deleted By Admin' ? '#FFCCCC' : '#8000803b', width: "270px" }}>                              <div className="timeline timeline-one-side">
+                                <div className="timeline-block mb-1" style={{marginTop:"5px",}}>
+                                <span className="timeline-step">
+              {item.description === 'New Order Added' ? (
+                <i className="material-icons text-info text-gradient">shopping_cart</i>
+              ) : item.description === 'Order Deleted By Admin' ? (
+                <i className="material-icons text-danger text-gradient">delete</i>
+              ) : (
+                <i className="material-icons text-success text-gradient">check</i>
+              )}
+            </span>
+                                  <div className="timeline-content">
+                                    <h6 className="text-dark text-sm font-weight-bold mb-0">Order ID : {item.orderId} </h6>
+                                    <p className={`font-weight-bold text-xs mt-1 mb-0 ${item.description === 'All Items Checked' ? 'text-success' : item.description === 'Order Deleted By Admin' ? 'text-danger' : 'text-info'}`}>{item.description}</p>
+                                  </div>
+                                </div>
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                  
+             </table>
+             </div>
+            </div>
+
+          </div>
+        </div>
+        <div className="col-lg-4 col-md-6" style={{height:"370px"}}>
+          <div className="card h-100"  style={{ backgroundColor:"pink"}}>
+            <div className="card-header pb-0" style={{padding:" 0.5rem", backgroundColor:"pink"}} >
+              <h6>Event Calendar</h6>
+             
+              <Calendar
+                                        onChange={handleDateChange}
+                                        value={selectedDate}
+                                    />
+            </div>
 
 
 
-
-
-
-
-
-
+          </div>
+        </div>
+       
+    
+</div>
 
         </div>
       </div>
@@ -284,5 +513,7 @@ useEffect(() => {
     </>
   );
 }
+
+
 
 export default Dashboard;
