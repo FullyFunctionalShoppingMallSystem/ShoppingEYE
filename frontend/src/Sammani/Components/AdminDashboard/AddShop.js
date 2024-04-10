@@ -120,7 +120,7 @@ const [storeID, setStoreID] = useState("");
         <aside className="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark" id="sidenav-main">
     <div className="sidenav-header">
       <i className="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
-      <a className="navbar-brand m-0" href=" " target="_blank">
+      <a className="navbar-brand m-0" href="/dashboard">
         <div style={{display:"flex"}}>
       <img src={image1} className="navbar-brand-img "  alt="main_logo"/> 
         <span className="ms-2 font-weight-bold text-white " style={{marginTop:"10px"}}  > MAZZA GALLERIE</span>
@@ -139,7 +139,7 @@ const [storeID, setStoreID] = useState("");
           </a>
         </li>
         <li className="nav-item">
-          <a className="nav-link text-white " href="../pages/tables.html">
+          <a className="nav-link text-white " href="/sales">
             <div className="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i className="material-icons opacity-10">table_view</i>
             </div>
