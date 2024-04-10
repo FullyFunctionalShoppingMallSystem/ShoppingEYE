@@ -226,7 +226,7 @@ useEffect(() => {
       return (
     <>
     <div className="g-sidenav-show  bg-gray-200">
-        <aside className="sidenav navbar navbar-vertical navbar-expand-xs border-0  my-3 fixed-start ms-3   bg-gradient-dark" id="sidenav-main">
+    <aside className="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3   bg-gradient-dark" id="sidenav-main">
     <div className="sidenav-header">
       <i className="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
       <a className="navbar-brand m-0" href="/dashboard" >
