@@ -450,7 +450,7 @@ useEffect(() => {
           <div className="card h-100">
             <div className="card-header pb-0" style={{padding:" 0.5rem"}} >
               <h6>Orders overview</h6>
-              <p class="text-sm">
+              <p className="text-sm">
               Today's Overview: {new Date().toLocaleDateString()}
               </p>
              

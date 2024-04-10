@@ -1,18 +1,78 @@
 import React, { useState, useEffect} from "react";
 import "../assets/css/headerUI.css"
 import axios from "axios";
-import "../assets/css/table.css"
-import { useParams } from "react-router-dom";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {  faEdit } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch,faBell, faCog, faUser,faDownload } from '@fortawesome/free-solid-svg-icons'; 
-import jsPDF from 'jspdf';
-import 'jspdf-autotable';
-import headerImageURL from '../assets/img/logo.png';
 import image1 from "../assets/img/logo.png"
-
+import "../assets/css/popup.css"
 function Sales() {
-   
+  const [showModal, setShowModal] = useState(false);
+  const [salesData, setSalesData] = useState([]);
+  const [filteredSalesData, setFilteredSalesData] = useState([]);
+  const [formData, setFormData] = useState({
+    code: "",
+    description: "",
+    date: new Date().toISOString().substr(0, 10),
+    expDate: "",
+    discount: ""
+  });
+
+  const toggleModal = () => {
+    setShowModal(!showModal);
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post('http://localhost:8070/code/addCode', formData);
+      console.log("Code added successfully");
+  
+      // Refresh the page after successful submission
+      window.location.reload();
+  
+      // You may want to do something after successfully adding the code, like closing the modal or updating UI
+    } catch (error) {
+      console.error("Error adding code:", error);
+      // Handle error, show notification, etc.
+    }
+  };
+
+  const handleClear = () => {
+    setFormData({
+        code: "",
+        description: "",
+        date: new Date().toISOString().substr(0, 10),
+        expDate: "",
+        discount: ""
+    });
+};
+
+useEffect(() => {
+  // Fetch sales data from backend API
+  axios.get('http://localhost:8070/code')
+    .then(response => {
+      setSalesData(response.data);
+      setFilteredSalesData(response.data);
+    })
+    .catch(error => {
+      console.error('Error fetching sales data:', error);
+    });
+}, []);
+
+const handleSearch = (e) => {
+  const searchTerm = e.target.value.toLowerCase();
+  const filteredData = salesData.filter(item => {
+    return item.code.toLowerCase().startsWith(searchTerm);
+  });
+  setFilteredSalesData(filteredData);
+};
+
+
     return(
         <>
 
@@ -84,7 +144,7 @@ function Sales() {
       </div>
     </div>
   </aside>
- 
+
       
 <main className="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
    
@@ -101,7 +161,7 @@ function Sales() {
         <div className="ms-md-auto pe-md-3 d-flex align-items-center">
             <div className="input-group input-group-outline  ">
              
-              <input style={{width:"300px"}} type="text" className="form-control" placeholder="Search Order..."      
+              <input style={{width:"300px"}} type="text" className="form-control" onChange={handleSearch} placeholder="Search Code..."      
                />
 <button className="btn btn-primary" type="button"> <FontAwesomeIcon icon={faSearch} size="lg" ></FontAwesomeIcon> </button>
 
@@ -131,13 +191,104 @@ function Sales() {
       </div>
     </nav>
     <div className="container-fluid py-4">
+<div style={{display:"flex"}}>
+    <div className="col-md-12 mb-lg-0 mb-4" style={{width:"50%"}}>
+              <div className="card mt-4">
+                <div className="card-header pb-0 p-3">
+                  <div className="row">
+                    <div className="col-6 d-flex align-items-center">
+                      <h6 className="mb-0">Promotion Codes</h6>
+                    </div>
+                    <div className="col-6 text-end">
+                      <button className="btn bg-gradient-primary mb-0" onClick={toggleModal}><i className="material-icons text-sm">add</i>&nbsp;&nbsp;Add Code</button>
+                    </div>
+                    <br></br>
+                    <br></br>
+
+
+                    <ul className="list-group">
+                    {filteredSalesData.map((item, index) => {
+    // Calculate if the expiration date has passed
+    const isExpired = new Date(item.expDate) < new Date();
+
+    return (
+      <li key={index} className={`list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg ${isExpired ? 'bg-danger' : ''}`}>
+        <p className="">{index + 1}</p>
+        <div className="d-flex flex-column" style={{ marginRight: "70px", width: "150px" }}>
+          <h6 className="mb-1 text-dark font-weight-bold text-sm">{item.code}</h6>
+          <span className="text-xs">{item.description}</span>
+        </div>
+        <div className="d-flex align-items-center text-sm" style={{ marginRight: "20px" }}>
+          <h6  className="text-success">{item.discount}&nbsp;&nbsp;&nbsp;&nbsp;</h6>
+          <h6>Exp: <span className="text-xs" style={{ color: "blue" }}>{item.expDate}</span></h6>
+        </div>
+      </li>
+    );
+  })}
+</ul>
+
+
+                  </div>
+                </div>
+<br></br>
+              </div>
+              
+            </div>
+
+            jfevjefvef
+            </div>
   
     </div>
    
      </main> 
    
      </div>
+     {showModal && (
+      
+                <div className="modal">
+                    <div className="modal-contents">
+                     <span className="cross" onClick={toggleModal}>&times;</span>
+                     <form onSubmit={handleSubmit}>
+                       <label className="text-primary" style={{marginBottom:"0rem" ,color:"black"}}><b>Promotion Code</b></label>
+                       <div className="input-group input-group-outline">
+      <input type="text" id="textInput" name="code"  value={formData.code}
+                  onChange={handleChange} className="form-control"  required/>
+    </div>
 
+    <label className="text-primary" style={{marginBottom:"0rem" ,color:"black"}}><b>Discount</b></label>
+    <div className="input-group input-group-outline">
+      <input type="text" name="discount" value={formData.discount}
+                  onChange={handleChange} className="form-control"  required/>
+    </div>
+
+    <label className="text-primary" style={{marginBottom:"0rem" ,color:"black"}}><b>Expiry Date</b></label>
+<div className="input-group input-group-outline" >
+  <input 
+    type="date"
+    value={formData.expDate}
+    onChange={handleChange} 
+    name="expDate" 
+    min={new Date().toISOString().split('T')[0]}
+    className="form-control"
+    required
+  />
+</div>
+    <label className="text-primary" style={{marginBottom:"0rem" ,color:"black"}}><b>Description</b></label>
+    <div className="input-group input-group-outline">
+      <input type="text"  value={formData.description}
+                  onChange={handleChange} name="description" className="form-control"/>
+    </div >
+    <button className="btn bg-gradient-success mb-0" >Submit</button> &nbsp;&nbsp;&nbsp;
+                        <button className="btn bg-gradient-danger mb-0" onClick={handleClear} >Clear</button>
+                        </form>
+
+                        
+
+
+                    </div>
+                </div>
+              
+            )}
         </>
     )
 
