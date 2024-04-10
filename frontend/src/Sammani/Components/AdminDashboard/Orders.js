@@ -7,6 +7,8 @@ import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import headerImageURL from '../assets/img/logo.png';
 import image1 from "../assets/img/logo.png"
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Order(){
   const [orders, setOrders] = useState([]);
@@ -107,9 +109,14 @@ const handleDelete = (orderId, status) => {
 
           setOrders(orders.filter(order => order.orderId !== orderId));
           console.log('Order deleted successfully:', response.data);
-          // Display success alert
-          window.location.reload();
+          toast.success("Contact deleted successfully!", {
+            style: {
+              background: "black",
+              color: "white"
+            },
+          });
       })
+      
       .catch(error => {
           console.error('Error deleting order:', error);
           // Display error alert
@@ -335,7 +342,7 @@ const handleViewOrder = (orderId) => {
     </div>
      </main> 
      </div>
-
+<ToastContainer/>
         </>
     )
 
