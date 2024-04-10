@@ -6,6 +6,7 @@ import { faSearch,faBell, faCog, faUser, faCalendarWeek } from '@fortawesome/fre
 import Chart from "chart.js/auto";
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
+import image1 from "../assets/img/logo.png"
 
 
 function Dashboard(){
@@ -229,8 +230,10 @@ useEffect(() => {
     <div className="sidenav-header">
       <i className="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
       <a className="navbar-brand m-0" href=" " target="_blank">
-       
-        <span className="ms-1 font-weight-bold text-white">MAZZA GALLERIE</span>
+        <div style={{display:"flex"}}>
+      <img src={image1} className="navbar-brand-img "  alt="main_logo"/> 
+        <span className="ms-2 font-weight-bold text-white " style={{marginTop:"10px"}}  > MAZZA GALLERIE</span>
+        </div>
       </a>
     </div>
     <hr className="horizontal light mt-0 mb-2"/>
