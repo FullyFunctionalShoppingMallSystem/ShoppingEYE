@@ -15,7 +15,7 @@ import ViewContact from "./Sammani/Components/AdminDashboard/ViewContact.js";
 import Search from "./Sammani/Components/pages/Search.js";
 import Dashboard from "./Sammani/Components/AdminDashboard/Dashboard.js";
 import "react-toastify/dist/ReactToastify.css";
-import Chart1 from "./Sammani/Components/AdminDashboard/chart1.js";
+
 
 
 
@@ -42,8 +42,7 @@ function App() {
          <Route path="/viewContact/:issueId" element={<ViewContact/>} />
          <Route path="/VirtualSearch" element={<Search />} />
          <Route path="/dashboard" element={<Dashboard />} />
-         <Route path="/chart1" element={<Chart1 />} />
-         
+       
         
      
    

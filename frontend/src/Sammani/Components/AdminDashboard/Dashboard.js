@@ -4,6 +4,8 @@ import axios from "axios";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch,faBell, faCog, faUser, faCalendarWeek } from '@fortawesome/free-solid-svg-icons';
 import Chart from "chart.js/auto";
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
 
 
 function Dashboard(){
@@ -12,6 +14,24 @@ function Dashboard(){
     const [totalShops, setTotalShops] = useState(0);
     const [totalContact, setTotalContact] = useState(0);
     const [totalPeople, setTotalPeople] = useState(0); 
+    const [currentOrders, setCurrentOrders] = useState([]);
+    const [overview, setOverview] = useState([]);
+    const [selectedDate, setSelectedDate] = useState(new Date());
+
+//overview
+useEffect(() => {
+       
+  axios.get("http://localhost:8070/overview/") // Fetch OverView entries
+      .then(response => {
+          const overview = response.data;
+          setOverview(overview);
+      })
+      .catch(error => {
+          console.error('Error fetching overview:', error);
+      });
+}, []);
+
+
 
 //chart
 const [orderCountsByDayOfWeek, setOrderCountsByDayOfWeek] = useState({});
@@ -37,6 +57,37 @@ useEffect(() => {
       console.error('Error fetching orders:', error);
     });
 }, []);
+
+useEffect(() => {
+  // Fetch orders from backend when component mounts
+  axios.get("http://localhost:8070/order/")
+    .then(response => {
+      const orders = response.data;
+      const currentDate = new Date().toLocaleDateString("en-US");
+
+      // Filter orders made on the current date
+      const ordersToday = orders.filter(order => {
+        const orderDate = new Date(order.date).toLocaleDateString("en-US");
+        return orderDate === currentDate;
+      });
+
+      setCurrentOrders(ordersToday);
+      setLastUpdateTime(new Date().toLocaleString());
+    })
+    .catch(error => {
+      console.error('Error fetching orders:', error);
+    });
+}, []);
+
+
+useEffect(() => {
+  // Clear orders after 24 hours
+  const timer = setTimeout(() => {
+    setCurrentOrders([]);
+  }, 86400000); // 24 hours in milliseconds
+
+  return () => clearTimeout(timer);
+}, [currentOrders]);
 
 
 useEffect(() => {
@@ -164,6 +215,11 @@ useEffect(() => {
             console.error('Error fetching orders:', error);
           });
       }, []);
+
+      const handleDateChange = (date) => {
+        setSelectedDate(date);
+        // You can perform any action here when the date changes
+    };
     
       const percentageDifference = yesterdayOrders !== 0 ? ((totalOrders - yesterdayOrders) / yesterdayOrders) * 100 : 0;
       return (
@@ -370,7 +426,7 @@ useEffect(() => {
       <div className="col-lg-4 col-md-6 mt-4 mb-4">
           <div className="card z-index-2  ">
             <div className="card-header p-0 position-relative mt-n4 mx-2 z-index-2 bg-transparent">
-            <div className="bg-gradient-primary shadow-primary border-radius-lg py-4 pe-1">
+            <div className="bg-gradient-primary shadow-primary border-radius-lg py-5 pe-1">
                 <div className="chart">
                   <canvas id="chart-line" className="chart-canvas" height="150"></canvas>
                 </div>
@@ -384,6 +440,64 @@ useEffect(() => {
                 <p className="mb-0 text-sm"> {lastUpdateTime} </p>
               </div>
             </div>
+          </div>
+        </div>
+
+        <div className="col-lg-4 col-md-6" style={{height:"370px"}}>
+          <div className="card h-100">
+            <div className="card-header pb-0" style={{padding:" 0.5rem"}} >
+              <h6>Orders overview</h6>
+              <p class="text-sm">
+              Today's Overview: {new Date().toLocaleDateString()}
+              </p>
+             
+              <div style={{ maxHeight: "270px", overflowY: "auto" , width:"270px" }}>
+              <table>
+            
+                <tbody>
+             {overview.map((item, index) => (
+                          <tr key={index} style={{height:"50px"}}>
+ <td style={{ backgroundColor: item.description === 'All Items Checked' ? '#0080153b' : item.description === 'Order Deleted By Admin' ? '#FFCCCC' : '#8000803b', width: "270px" }}>                              <div className="timeline timeline-one-side">
+                                <div className="timeline-block mb-1" style={{marginTop:"5px",}}>
+                                <span className="timeline-step">
+              {item.description === 'New Order Added' ? (
+                <i className="material-icons text-info text-gradient">shopping_cart</i>
+              ) : item.description === 'Order Deleted By Admin' ? (
+                <i className="material-icons text-danger text-gradient">delete</i>
+              ) : (
+                <i className="material-icons text-success text-gradient">check</i>
+              )}
+            </span>
+                                  <div className="timeline-content">
+                                    <h6 className="text-dark text-sm font-weight-bold mb-0">Order ID : {item.orderId} </h6>
+                                    <p className={`font-weight-bold text-xs mt-1 mb-0 ${item.description === 'All Items Checked' ? 'text-success' : item.description === 'Order Deleted By Admin' ? 'text-danger' : 'text-info'}`}>{item.description}</p>
+                                  </div>
+                                </div>
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                  
+             </table>
+             </div>
+            </div>
+
+          </div>
+        </div>
+        <div className="col-lg-4 col-md-6" style={{height:"370px"}}>
+          <div className="card h-100"  style={{ backgroundColor:"pink"}}>
+            <div className="card-header pb-0" style={{padding:" 0.5rem", backgroundColor:"pink"}} >
+              <h6>Event Calendar</h6>
+             
+              <Calendar
+                                        onChange={handleDateChange}
+                                        value={selectedDate}
+                                    />
+            </div>
+
+
+
           </div>
         </div>
        

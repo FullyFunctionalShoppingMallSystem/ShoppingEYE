@@ -90,11 +90,21 @@ const generatePDF = () => {
 
 
 //delete
-const handleDelete = (orderId) => {
+const handleDelete = (orderId, status) => {
+  // Check if the order status is 'All Items Checked'
+  if (status !== 'All items checked') {
+    // Display alert that the order cannot be deleted
+    window.alert(`Cannot delete "Pending Order" ID: ${orderId}.`);
+    return;
+  }
+
   // Send a DELETE request to the backend endpoint
   axios.delete(`http://localhost:8070/order/delete/${orderId}`)
       .then(response => {
-          // If deletion is successful, update the orders state to reflect the changes
+         const description = "Order Deleted By Admin";
+         const date = new Date().toISOString();
+         axios.post("http://localhost:8070/overview/addOverView", { orderId, description, date })
+
           setOrders(orders.filter(order => order.orderId !== orderId));
           console.log('Order deleted successfully:', response.data);
           // Display success alert
@@ -259,7 +269,7 @@ const handleViewOrder = (orderId) => {
 
         
 
-        <th ><button onClick={generatePDF} className="btn btn-info"> <FontAwesomeIcon icon={faDownload}></FontAwesomeIcon>  Download PDF</button></th>
+        <th ><button onClick={generatePDF} className="btn btn-info"> <FontAwesomeIcon icon={faDownload}></FontAwesomeIcon>  PDF</button></th>
       </tr>
     </thead>
     <tbody>
@@ -298,7 +308,7 @@ const handleViewOrder = (orderId) => {
 
     </div>
     <div style={{marginLeft: "10px", display: "flex", alignItems: "center"}}> 
-        <button  onClick={() => handleDelete(order.orderId)} style={{width: "40px", height: "40px"}} type="button" className="btn btn-danger d-flex justify-content-center align-items-center"> 
+        <button  onClick={() => handleDelete(order.orderId,order.status)} style={{width: "40px", height: "40px"}} type="button" className="btn btn-danger d-flex justify-content-center align-items-center"> 
             <FontAwesomeIcon icon={faTrashAlt} size="lg" style={{margin: "auto"}} />
         </button> 
     </div>
