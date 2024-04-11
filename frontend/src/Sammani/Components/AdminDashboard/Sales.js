@@ -2,9 +2,15 @@ import React, { useState, useEffect} from "react";
 import "../assets/css/headerUI.css"
 import axios from "axios";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch,faBell, faCog, faUser,faDownload } from '@fortawesome/free-solid-svg-icons'; 
+import { faSearch,faBell, faCog, faUser,faTrashAlt } from '@fortawesome/free-solid-svg-icons'; 
 import image1 from "../assets/img/logo.png"
 import "../assets/css/popup.css"
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+
+
+
 function Sales() {
   const [showModal, setShowModal] = useState(false);
   const [salesData, setSalesData] = useState([]);
@@ -72,7 +78,27 @@ const handleSearch = (e) => {
   setFilteredSalesData(filteredData);
 };
 
-
+//delete
+const handleDelete = (id) => {
+  axios.delete(`http://localhost:8070/code/delete/${id}`)
+    .then(response => {
+      // Filter out the deleted code from the state
+      setSalesData(prevSalesData => prevSalesData.filter(item => item._id !== id));
+      // Filter out the deleted code from the filtered data as well
+      setFilteredSalesData(prevFilteredData => prevFilteredData.filter(item => item._id !== id));
+      console.log('Code deleted successfully:', response.data);
+      toast.success("Code deleted successfully!", {
+        style: {
+          background: "black",
+          color: "white"
+        },
+      });
+    })
+    .catch(error => {
+      console.error('Error deleting code:', error);
+      alert("Error deleting code. Please try again later.");
+    });
+};
     return(
         <>
 
@@ -161,7 +187,7 @@ const handleSearch = (e) => {
         <div className="ms-md-auto pe-md-3 d-flex align-items-center">
             <div className="input-group input-group-outline  ">
              
-              <input style={{width:"300px"}} type="text" className="form-control" onChange={handleSearch} placeholder="Search Code..."      
+              <input style={{width:"300px",height:"40px"}} type="text" className="form-control" onChange={handleSearch} placeholder="Search Code..."      
                />
 <button className="btn btn-primary" type="button"> <FontAwesomeIcon icon={faSearch} size="lg" ></FontAwesomeIcon> </button>
 
@@ -204,25 +230,34 @@ const handleSearch = (e) => {
                     </div>
                     <br></br>
                     <br></br>
+                    
 
 
                     <ul className="list-group">
+                    <br></br>
+                   
                     {filteredSalesData.map((item, index) => {
     // Calculate if the expiration date has passed
     const isExpired = new Date(item.expDate) < new Date();
 
     return (
-      <li key={index} className={`list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg ${isExpired ? 'bg-danger' : ''}`}>
+      
+      <div className="row" style={{ borderTop: "1px solid black", padding: "0vh 0" }}>
+      <li key={index} className={`list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg ${isExpired ? 'text-danger' : ''}`}>
         <p className="">{index + 1}</p>
         <div className="d-flex flex-column" style={{ marginRight: "70px", width: "150px" }}>
-          <h6 className="mb-1 text-dark font-weight-bold text-sm">{item.code}</h6>
-          <span className="text-xs">{item.description}</span>
+          <h6 className={`mb-1 font-weight-bold text-sm ${isExpired ? 'text-danger' : 'text-dark'}`}>{item.code}</h6>
+          <span className={`text-xs ${isExpired ? 'text-danger' : ''}`}>{item.description}</span>
         </div>
         <div className="d-flex align-items-center text-sm" style={{ marginRight: "20px" }}>
-          <h6  className="text-success">{item.discount}&nbsp;&nbsp;&nbsp;&nbsp;</h6>
-          <h6>Exp: <span className="text-xs" style={{ color: "blue" }}>{item.expDate}</span></h6>
+          <h6 className={`text-success ${isExpired ? 'text-danger' : ''}`}>{item.discount}&nbsp;&nbsp;&nbsp;&nbsp;</h6>
+          <h6>Exp: <span className={`text-xs ${isExpired ? 'text-danger' : 'text-blue'}`}>{item.expDate}</span></h6>
+        </div>
+        <div>
+          <button onClick={() => handleDelete(item._id)}  style={{ border: "none", background: "none" }}><FontAwesomeIcon style={{marginTop:"10px"}} icon={faTrashAlt}></FontAwesomeIcon></button>
         </div>
       </li>
+      </div>
     );
   })}
 </ul>
@@ -289,6 +324,7 @@ const handleSearch = (e) => {
                 </div>
               
             )}
+            <ToastContainer/>
         </>
     )
 

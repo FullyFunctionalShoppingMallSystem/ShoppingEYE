@@ -221,7 +221,7 @@ function UpdateShop(){
         <div className="ms-md-auto pe-md-3 d-flex align-items-center">
             <div className="input-group input-group-outline  ">
              
-              <input style={{width:"300px"}} type="text" className="form-control" placeholder="Search Shop..."
+              <input style={{width:"300px",height:"40px"}} type="text" className="form-control" placeholder="Search Shop..."
                id="searchContacts" 
                />
                <button className="btn btn-primary" type="button"> <FontAwesomeIcon icon={faSearch} size="lg" ></FontAwesomeIcon> </button>

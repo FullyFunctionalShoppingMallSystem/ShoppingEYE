@@ -44,20 +44,41 @@ useEffect(() => {
     .then(response => {
       const orders = response.data;
 
-      // Group orders by day of the week
-      const ordersByDayOfWeek = {};
+      // Get the start and end dates of the current week
+      const currentDate = new Date();
+      const firstDayOfWeek = new Date(currentDate.setDate(currentDate.getDate() - currentDate.getDay()));
+      const lastDayOfWeek = new Date(firstDayOfWeek);
+      lastDayOfWeek.setDate(lastDayOfWeek.getDate() + 6);
+
+      // Initialize an object to hold order counts for each day of the week
+      const orderCountsByDayOfWeek = {
+        "Monday": 0,
+        "Tuesday": 0,
+        "Wednesday": 0,
+        "Thursday": 0,
+        "Friday": 0,
+        "Saturday": 0,
+        "Sunday": 0
+      };
+
+      // Count orders for each day of the week within the current week
       orders.forEach(order => {
-        const date = new Date(order.date);
-        const dayOfWeek = date.toLocaleDateString("en-US", { weekday: "long" });
-        ordersByDayOfWeek[dayOfWeek] = (ordersByDayOfWeek[dayOfWeek] || 0) + 1;
+        const orderDate = new Date(order.date);
+        if (orderDate >= firstDayOfWeek && orderDate <= lastDayOfWeek) {
+          const dayOfWeek = orderDate.toLocaleDateString("en-US", { weekday: "long" });
+          orderCountsByDayOfWeek[dayOfWeek] += 1;
+        }
       });
-      setOrderCountsByDayOfWeek(ordersByDayOfWeek);
+
+      // Update state with the order counts by day of the week
+      setOrderCountsByDayOfWeek(orderCountsByDayOfWeek);
       setLastUpdateTime(new Date().toLocaleString());
     })
     .catch(error => {
       console.error('Error fetching orders:', error);
     });
 }, []);
+
 
 useEffect(() => {
   // Fetch orders from backend when component mounts
@@ -310,7 +331,7 @@ useEffect(() => {
         <div className="ms-md-auto pe-md-3 d-flex align-items-center">
             <div className="input-group input-group-outline  ">
              
-              <input style={{width:"300px"}} type="text" className="form-control" placeholder="Search Order..."
+              <input style={{width:"300px",height:"40px"}} type="text" className="form-control" placeholder="Search Order..."
                id="searchContacts" 
               
               
