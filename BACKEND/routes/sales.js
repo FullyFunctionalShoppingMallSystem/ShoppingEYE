@@ -46,7 +46,7 @@ router.route("/").get((req,res)=>{
 router.route("/delete/:id").delete(async (req, res) => {
     try {
       let sales = req.params.id;
-      const deletedCode = await Review.findByIdAndDelete({ _id: sales });
+      const deletedCode = await Sales.findByIdAndDelete({ _id: sales });
   
       if (deletedCode) {
         res.json("Code deleted");
