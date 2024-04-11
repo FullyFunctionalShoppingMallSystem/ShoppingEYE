@@ -16,28 +16,29 @@ import Ads2 from "./Ads2.js";
 function Cart(){
    const [code, setCode] = useState('');
    const [discount, setDiscount] = useState(null);
+   const [codeError, setCodeError] = useState(null);
 
  
    const handleInputChange = async (e) => {
       const { name, value } = e.target;
       if (name === 'code') {
-        setCode(value);
-        try {
-          // Send request to backend to check if code is valid
-          const response = await axios.get(`http://localhost:8070/code/${value}`);
-          const data = response.data;
-        
-          setDiscount(data.discount);
-         
-
-        } catch (error) {
-          // If code is invalid, clear the discount
-          setDiscount(null);
-        }
+          setCode(value);
+          try {
+              const response = await axios.get(`http://localhost:8070/code/${value}`);
+              const data = response.data;
+              if (data.expDate && new Date(data.expDate) < new Date()) {
+                  setDiscount(null);
+                  setCodeError("Expired code");
+              } else {
+                  setDiscount(data.discount);
+                  setCodeError(null);
+              }
+          } catch (error) {
+              setDiscount(null);
+              setCodeError("Invalid code");
+          }
       }
-      // Add other input handling logic here if needed
-    };
-  
+  };
   
  
    useEffect(() => {
@@ -82,20 +83,19 @@ const [nic, setNic] = useState("");
       fetchData();
   }, []);
 
-    const fetchData = async () => {
-        try {
-           const response = await axios.get("http://localhost:8070/cart/");
-           setData(response.data);
-        } catch (error) {
-           // Check if the error is due to cart being empty
-           if (error.response && error.response.status === 404) {
-              // Cart is empty, set data to an empty array
-              setData([]);
-           } else {
-              console.error("Error fetching data:", error);
-           }
-        }
-     }
+  const fetchData = async () => {
+   try {
+       const response = await axios.get("http://localhost:8070/cart/");
+       setData(response.data);
+   } catch (error) {
+       if (error.response && error.response.status === 404) {
+           setData([]);
+       } else {
+           console.error("Error fetching data:", error);
+       }
+   }
+};
+
 
 
      const handleCheckout = async () => {
@@ -113,7 +113,10 @@ const [nic, setNic] = useState("");
             return; // Don't proceed if there are validation errors
         }
 
-       
+        if (codeError) {
+         alert(" Expired coupon code. Please enter a valid code.");
+         return;
+     }
 
         if (code) {
             // Check if the provided code is valid
@@ -200,8 +203,8 @@ const [nic, setNic] = useState("");
             }
         });
 
-        // Clear the cart data after successful checkout
-        setData([]);
+        await axios.delete("http://localhost:8070/cart/deleteAll");
+        setData([]); // Clear the cart in the frontend
 
     } catch (error) {
         console.error("Error checking out:", error);

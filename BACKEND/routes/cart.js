@@ -145,6 +145,18 @@ router.route("/delete/:itemId").delete(async (req, res) => {
     });
      
     
+    // DELETE route to delete all items from the cart
+router.delete("/deleteAll", async (req, res) => {
+  try {
+    // Logic to delete all items from the cart in your database
+    await Cart.deleteMany();
+
+    res.status(200).json({ message: "All items deleted from the cart successfully." });
+  } catch (error) {
+    console.error("Error deleting items from cart:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
 
 
 module.exports = router;

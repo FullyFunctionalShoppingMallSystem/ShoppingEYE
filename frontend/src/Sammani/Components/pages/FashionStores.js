@@ -37,13 +37,15 @@ function FashionStores(){
             );
             return (
               <figure key={singleData._id}>
-        <img src={`data:image/png;base64,${base64String}`} alt="image"  style={{ width: "150px", height: "150px" }}   />
+                <a href="/Mimosa">
+        <img src={`data:image/png;base64,${base64String}`} alt="image"  style={{ width: "150px", height: "150px" }}   /> </a>
                 <figcaption>{singleData.shopName}</figcaption>
                 <div></div>
                 <div></div>
                 <div></div>
                 <div></div>
               </figure>
+              
             );
           })}
         </div>
