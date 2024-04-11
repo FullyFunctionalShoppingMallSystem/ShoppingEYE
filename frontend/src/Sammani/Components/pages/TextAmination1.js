@@ -42,7 +42,7 @@ const Animation1 = () => {
       <h1 className="ml1" style={{color:"white", fontSize:"100px"}}>
         <span className="text-wrapper">
           <span className="line line1"></span>
-          <span className="letters">CLOTHING STORES</span>
+          <span className="letters">CATEGORIES</span>
           <span className="line line2"></span>
         </span>
       </h1>
