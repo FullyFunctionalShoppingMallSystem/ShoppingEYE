@@ -13,6 +13,7 @@
     "@testing-library/user-event": "^13.5.0",
     "animejs": "^3.2.2",
     "axios": "^1.6.8",
+    "framer-motion": "^11.0.28",
     "jspdf": "^2.5.1",
     "jspdf-autotable": "^3.8.2",
     "node": "^18.20.0",
@@ -25,6 +26,7 @@
     "react-scripts": "5.0.1",
     "react-toastify": "^10.0.5",
     "sass": "^1.72.0",
+    "valtio": "^1.13.2",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
