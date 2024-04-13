@@ -72,9 +72,7 @@ function Cart(){
     };
 
 //Fetch data 
-const [nic, setNic] = useState("");
     const [email, setEmail] = useState("");
-    const [nicError, setNicError] = useState("");
     const [emailError, setEmailError] = useState("");
     const [data, setData] = useState([]);
    
@@ -106,10 +104,10 @@ const [nic, setNic] = useState("");
             return;
         }
 
-        validateNIC();
+     
         validateEmail();
 
-        if (nicError || emailError) {
+        if (emailError) {
             return; // Don't proceed if there are validation errors
         }
 
@@ -155,7 +153,6 @@ const [nic, setNic] = useState("");
         const orderId = generateShortId();
         const orderData = {
             orderId,
-            nic,
             code,
             email,
             deliveryFee: "350.00", // Make sure it's a string 
@@ -202,6 +199,7 @@ const [nic, setNic] = useState("");
                 color: "white" // Example text color
             }
         });
+        
 
         await axios.delete("http://localhost:8070/cart/deleteAll");
         setData([]); // Clear the cart in the frontend
@@ -240,14 +238,7 @@ const handleDelete = async (itemId) => {
 }
 
 
- // NIC validation function
- const validateNIC = () => {
-   if (!/^(\d{9}v|\d{12})$/i.test(nic)) {
-       setNicError("NIC should contain 9 or 12 digits followed by 'v'");
-   } else {
-       setNicError("");
-   }
-}
+
 
 // Email validation function
 const validateEmail = () => {
@@ -258,12 +249,7 @@ const validateEmail = () => {
    }
 }
 
-// Handle NIC input change
-const handleNicChange = (e) => {
-   setNic(e.target.value);
-   // Validate NIC on change
-   validateNIC();
-}
+
 
 // Handle email input change
 const handleEmailChange = (e) => {
@@ -340,17 +326,6 @@ const handleEmailChange = (e) => {
                      <form>
                         <p style={{fontSize:"14px", marginBottom:"2px", marginTop:"20px"}}>SHIPPING</p>
                         <select><option className="text-muted">Standard-Delivery- 350.00</option></select>
-                        <p style={{fontSize:"14px", marginBottom:"2px"}}> ENTER NIC</p>
-                        <input
-                        name="nic"
-                        placeholder="Enter your NIC"
-                        value={nic}
-                        onChange={handleNicChange}
-                        onBlur={validateNIC} // Validate NIC onBlur
-                        style={{ border: nicError ? "1px solid red" : "" }} // Apply red border if there's an error
-                        required
-                    />
-                    {nicError && <p style={{ color: "red", fontSize: "12px", marginBottom:"10px" }}>{nicError}</p>}
                   
                         <p style={{fontSize:"14px", marginBottom:"2px"}}>ENTER EMAIL</p>
                         <input
@@ -368,6 +343,7 @@ const handleEmailChange = (e) => {
                         <input name="code" placeholder="Enter code"value={code} onChange={handleInputChange} /> 
                         {code && discount === null && <p style={{  color: "red", fontSize: "12px", marginBottom:"10px" }}>Invalid code</p>}
                      </form>
+                     <br></br>
                      <div className="row" style={{ borderTop: "3px solid black", padding: "1vh 0" }}>
                         <div className="col" style={{fontSize:"14px", fontWeight: 'bold'}}>SUB TOTAL </div>
                         <div className="col text-right">Rs {(data.reduce((acc, item) => acc + parseFloat(item.price), 0) + 350).toFixed(2)}</div>

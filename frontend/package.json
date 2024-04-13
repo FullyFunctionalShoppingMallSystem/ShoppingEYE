@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@ant-design/icons": "^5.3.6",
     "@fortawesome/free-solid-svg-icons": "^6.5.1",
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@material-ui/core": "^4.12.4",
@@ -12,6 +13,8 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "animejs": "^3.2.2",
+    "antd": "^5.16.1",
+    "antd-img-crop": "^4.21.0",
     "axios": "^1.6.8",
     "framer-motion": "^11.0.28",
     "jspdf": "^2.5.1",

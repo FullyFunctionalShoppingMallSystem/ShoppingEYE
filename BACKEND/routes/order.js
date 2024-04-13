@@ -5,12 +5,9 @@ let Order =require("../models/Order");
 
 //Create function
 router.route("/addOrder").post((req, res) => {
-    const { orderId, deliveryFee, Code, status, nic, date,email, details,total,subTotal,discount } = req.body;
+    const { orderId, deliveryFee, Code, status, date,email, details,total,subTotal,discount } = req.body;
 
-    // Check if the 'nic' field is provided in the request body
-    if (!nic) {
-        return res.status(400).json({ message: "NIC is required" });
-    }
+   
 
     // Ensure details array is defined before attempting to map over it
     const orderDetails = details ? details.map(item => ({
@@ -30,7 +27,6 @@ router.route("/addOrder").post((req, res) => {
         deliveryFee,
         Code,
         status,
-        nic,
         date,
         email,
         total,
