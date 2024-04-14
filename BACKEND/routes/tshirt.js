@@ -78,15 +78,16 @@ router.route("/get/:email").get(async (req, res) => {
 
 
   
-// Schedule a task to delete all Tshirt entries after 30 seconds
+// Schedule a task to delete all Tshirt entries after 7 days
 setTimeout(async () => {
+  const oneWeekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000); // Get the date/time one week ago
   try {
-      await Tshirt.deleteMany({});
-      console.log('All Tshirt entries deleted.');
+      await Tshirt.deleteMany({ date: { $lt: oneWeekAgo } });
+      console.log('Deleted Tshirt entries older than one week.');
   } catch (error) {
-      console.error('Error deleting all Tshirt entries:', error);
+      console.error('Error deleting old Tshirt entries:', error);
   }
-}, 30 * 1000); // Run after 30 seconds
+}, 7 * 24 * 60 * 60 * 1000); // Run after 7 days
 
 
   
