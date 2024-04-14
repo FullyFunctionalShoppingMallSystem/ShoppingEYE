@@ -46,6 +46,9 @@ function App() {
          <Route path="/sales" element={<Sales />} />
        
         
+       
+       
+        
         </Routes>
       </div>
     </Router>

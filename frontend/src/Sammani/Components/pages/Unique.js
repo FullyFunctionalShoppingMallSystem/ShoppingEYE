@@ -74,13 +74,13 @@ function Unique() {
     }
 
     return (
-        <div className="App">
+        <div className="App" style={{backgroundColor:'white'}}>
             <h1 className='header'>Image Identification</h1>
             <div className='inputHolder'>
                 <input type='file' accept='image/*' capture='camera' className='uploadInput' onChange={uploadImage} ref={fileInputRef} />
                 <button className='btn btn-dark' onClick={triggerUpload}>Upload Image</button>
                 <span className='or'>OR</span>
-                <input type="text" placeholder='Paster image URL' ref={textInputRef} onChange={handleOnChange} />
+                <input style={{height:"50px", marginRight:'10px'}} type="text" placeholder='Paster image URL' ref={textInputRef} onChange={handleOnChange} />
             </div>
             <div className="mainWrapper">
                 <div className="mainContent">

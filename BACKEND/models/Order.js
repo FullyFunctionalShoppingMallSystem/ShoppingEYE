@@ -27,10 +27,6 @@ const orderSchema = new Schema({
         default: "350.00"
     },
     Code: String,
-    nic: {
-        type: String,
-        required: true
-    },
     status: {
         type: String,
         default: "pending"

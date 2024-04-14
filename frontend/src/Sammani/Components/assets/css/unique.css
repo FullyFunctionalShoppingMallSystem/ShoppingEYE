@@ -164,9 +164,9 @@ code {
 }
 
 .recentPredictions {
-    background: #dac2ff;
+    background: #dac2ff80;
     padding: 10px;
-    width: 590px;
+    width: 550px;
    
     
 
@@ -201,3 +201,4 @@ code {
         }
     }
 }
+
