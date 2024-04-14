@@ -7,6 +7,9 @@ import Chart from "chart.js/auto";
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import image1 from "../assets/img/logo.png"
+import moment from 'moment';
+
+
 
 
 function Dashboard(){
@@ -38,19 +41,13 @@ useEffect(() => {
 const [orderCountsByDayOfWeek, setOrderCountsByDayOfWeek] = useState({});
 const [lastUpdateTime, setLastUpdateTime] = useState("");
 
+//chart
 useEffect(() => {
-  // Fetch orders from backend when component mounts
   axios.get("http://localhost:8070/order/")
     .then(response => {
       const orders = response.data;
 
-      // Get the start and end dates of the current week
-      const currentDate = new Date();
-      const firstDayOfWeek = new Date(currentDate.setDate(currentDate.getDate() - currentDate.getDay()));
-      const lastDayOfWeek = new Date(firstDayOfWeek);
-      lastDayOfWeek.setDate(lastDayOfWeek.getDate() + 6);
-
-      // Initialize an object to hold order counts for each day of the week
+      // Initialize an array to hold the order counts for each day of the week
       const orderCountsByDayOfWeek = {
         "Monday": 0,
         "Tuesday": 0,
@@ -61,18 +58,16 @@ useEffect(() => {
         "Sunday": 0
       };
 
-      // Count orders for each day of the week within the current week
+      // Count orders for each day of the week
       orders.forEach(order => {
-        const orderDate = new Date(order.date);
-        if (orderDate >= firstDayOfWeek && orderDate <= lastDayOfWeek) {
-          const dayOfWeek = orderDate.toLocaleDateString("en-US", { weekday: "long" });
-          orderCountsByDayOfWeek[dayOfWeek] += 1;
-        }
+        const orderDate = moment(order.date);
+        const dayOfWeek = orderDate.format("dddd");
+        orderCountsByDayOfWeek[dayOfWeek] += 1;
       });
 
       // Update state with the order counts by day of the week
       setOrderCountsByDayOfWeek(orderCountsByDayOfWeek);
-      setLastUpdateTime(new Date().toLocaleString());
+      setLastUpdateTime(moment().format("LLLL"));
     })
     .catch(error => {
       console.error('Error fetching orders:', error);
@@ -80,27 +75,29 @@ useEffect(() => {
 }, []);
 
 
+
+
+// In your useEffect for updating the chart
 useEffect(() => {
-  // Fetch orders from backend when component mounts
-  axios.get("http://localhost:8070/order/")
-    .then(response => {
-      const orders = response.data;
-      const currentDate = new Date().toLocaleDateString("en-US");
+  // Chart data
+  const data = {
+    labels: Object.keys(orderCountsByDayOfWeek), // Use the keys (days of the week) as labels
+    datasets: [
+      {
+        label: "Sales",
+        tension: 0.4,
+        borderWidth: 0,
+        borderRadius: 4,
+        borderSkipped: false,
+        backgroundColor: "rgba(255, 255, 255, .8)",
+        data: Object.values(orderCountsByDayOfWeek), // Use the values (order counts) as data
+        maxBarThickness: 6
+      },
+    ],
+  };
 
-      // Filter orders made on the current date
-      const ordersToday = orders.filter(order => {
-        const orderDate = new Date(order.date).toLocaleDateString("en-US");
-        return orderDate === currentDate;
-      });
-
-      setCurrentOrders(ordersToday);
-      setLastUpdateTime(new Date().toLocaleString());
-    })
-    .catch(error => {
-      console.error('Error fetching orders:', error);
-    });
-}, []);
-
+  // Rest of your chart configuration and rendering logic...
+}, [orderCountsByDayOfWeek]);
 
 useEffect(() => {
   // Clear orders after 24 hours

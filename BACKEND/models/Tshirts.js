@@ -13,7 +13,7 @@ const tshirtSchema = new Schema({
 
     email :{
         type : String,
-       
+        unique: true,
     
     },
     date :{
@@ -21,12 +21,7 @@ const tshirtSchema = new Schema({
        
     
     },
-    description :{
-        type : String,
-       
-    
-    },
-
+   
 
 
 

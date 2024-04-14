@@ -7,7 +7,7 @@ import image1 from "../assets/img/logo.png"
 import "../assets/css/popup.css"
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import "../assets/css/Sales.css"
 
 
 
@@ -99,6 +99,51 @@ const handleDelete = (id) => {
       alert("Error deleting code. Please try again later.");
     });
 };
+
+//display tshirts 
+const [data, setData] = useState([]);
+   
+useEffect(() => {
+   fetchData();
+}, []);
+
+const fetchData = async () => {
+  try {
+     const response = await axios.get("http://localhost:8070/Tee/");
+     setData(response.data);
+  } catch (error) {
+     // Check if the error is due to cart being empty
+     if (error.response && error.response.status === 404) {
+        // Cart is empty, set data to an empty array
+        setData([]);
+     } else {
+        console.error("Error fetching data:", error);
+     }
+  }
+}
+
+//winner
+const [winner, setWinner] = useState(null);
+const [buttonDisabled, setButtonDisabled] = useState(false);
+
+const handleSelectWinner = () => {
+  const randomIndex = Math.floor(Math.random() * data.length);
+  setWinner(data[randomIndex]);
+  setButtonDisabled(true);
+  localStorage.setItem('lastWinnerSelection', Date.now());
+};
+
+const checkButtonStatus = () => {
+  const lastWinnerSelection = localStorage.getItem('lastWinnerSelection');
+  if (lastWinnerSelection) {
+    const oneWeek = 7 * 24 * 60 * 60 * 1000; // One week in milliseconds
+    const timeElapsed = Date.now() - parseInt(lastWinnerSelection);
+    if (timeElapsed < oneWeek) {
+      setButtonDisabled(true);
+    }
+  }
+};
+
     return(
         <>
 
@@ -172,7 +217,7 @@ const handleDelete = (id) => {
   </aside>
 
       
-<main className="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+<main className="main-content position-relative h-100 border-radius-lg ">
    
 <nav className="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" data-scroll="true">
       <div className="container-fluid py-1 px-3">
@@ -218,7 +263,31 @@ const handleDelete = (id) => {
     </nav>
     <div className="container-fluid py-4">
 <div style={{display:"flex"}}>
-    <div className="col-md-12 mb-lg-0 mb-4" style={{width:"50%"}}>
+
+<div className="image-container" style={{maxHeight: "500px", overflowY: "auto", whiteSpace: "nowrap", maxWidth:"450px" }}>
+  {data &&
+    data.map((singleData) => {
+      const base64String = btoa(
+        String.fromCharCode(...new Uint8Array(singleData.image.data.data))
+      );
+
+      return (
+        <div key={singleData._id} style={{ display: "inline-block", marginRight: "20px" }} className="image-wrapper">
+          <img
+            src={`data:image/png;base64,${base64String}`}
+            alt="image"
+            style={{ width: "150px", height: "150px" }}
+          />
+          <div>
+            {singleData.email}
+          </div>
+        </div>
+      );
+    })}
+</div>
+
+
+    <div className="col-md-12 mb-lg-0 mb-2" style={{width:"50%" , marginLeft:"20px" }}>
               <div className="card mt-4">
                 <div className="card-header pb-0 p-3">
                   <div className="row">
@@ -233,7 +302,7 @@ const handleDelete = (id) => {
                     
 
 
-                    <ul className="list-group">
+                    <ul className="list-group" >
                     <br></br>
                    
                     {filteredSalesData.map((item, index) => {
@@ -242,7 +311,7 @@ const handleDelete = (id) => {
 
     return (
       
-      <div className="row" style={{ borderTop: "1px solid black", padding: "0vh 0" }}>
+      <div className="row" style={{ borderTop: "1px solid black", padding: "0vh 0"}}>
       <li key={index} className={`list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg ${isExpired ? 'text-danger' : ''}`}>
         <p className="">{index + 1}</p>
         <div className="d-flex flex-column" style={{ marginRight: "70px", width: "150px" }}>
@@ -270,9 +339,30 @@ const handleDelete = (id) => {
               
             </div>
 
-            jfevjefvef
+
+
             </div>
-  
+ <div>       
+
+            <button style={{marginTop:'10px'}} className="btn btn-success" onClick={handleSelectWinner} disabled={buttonDisabled}>Select Winner</button>
+
+
+{winner && (
+  <div>
+    <h3>Winner:</h3>
+    <div>
+      <img
+        src={`data:image/png;base64,${btoa(
+          String.fromCharCode(...new Uint8Array(winner.image.data.data))
+        )}`}
+        alt="winner-image"
+        style={{ width: "150px", height: "150px" }}
+      />
+      <div>{winner.email}</div>
+    </div>
+  </div>
+)}
+  </div>    
     </div>
    
      </main> 
@@ -317,9 +407,7 @@ const handleDelete = (id) => {
                         <button className="btn bg-gradient-danger mb-0" onClick={handleClear} >Clear</button>
                         </form>
 
-                        
-
-
+                     
                     </div>
                 </div>
               

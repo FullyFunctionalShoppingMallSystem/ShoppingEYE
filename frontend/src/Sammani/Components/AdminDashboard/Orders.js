@@ -50,10 +50,10 @@ const generatePDF = () => {
   pdf.text('Online Shopping Mall Management', 25, 28);
 
   // Define the table headers
-  const headers = [['Order ID', 'NIC', 'Email', 'Date', 'Status']];
+  const headers = [['Order ID', 'Email', 'Date', 'Status']];
 
   // Extract data for the table rows
-  const data = filteredOrders.map(order => [order.orderId, order.nic, order.email, order.date, order.status]);
+  const data = filteredOrders.map(order => [order.orderId, order.email, order.date, order.status]);
 
   // Set the table width and height
   const tableWidth = 190;
@@ -67,7 +67,7 @@ const generatePDF = () => {
       theme: 'striped',
       margin: { top: 20 },
       styles: { fontSize: 8, cellPadding: 1, overflow: 'linebreak' },
-      columnStyles: { 0: { cellWidth: 30 }, 1: { cellWidth: 30 }, 2: { cellWidth: 40 }, 3: { cellWidth: 30 }, 4: { cellWidth: 40 } }
+      columnStyles: { 0: { cellWidth: 30 }, 1: { cellWidth: 40 }, 2: { cellWidth: 30 }, 3: { cellWidth: 40 } }
   });
 
       pdf.setFontSize(10);
@@ -109,7 +109,7 @@ const handleDelete = (orderId, status) => {
 
           setOrders(orders.filter(order => order.orderId !== orderId));
           console.log('Order deleted successfully:', response.data);
-          toast.success("Contact deleted successfully!", {
+          toast.success("Order deleted successfully!", {
             style: {
               background: "black",
               color: "white"
@@ -271,7 +271,6 @@ const handleViewOrder = (orderId) => {
       <tr>
       <th className="text-uppercase  text-sm  opacity-7 ps-2"></th>
         <th style={{color:"black"}} className="text-uppercase text-sm  opacity-7 ps-3">Order ID</th>
-        <th  style={{color:"black"}}className="text-uppercase  text-sm  opacity-7 ps-2">NIC</th>
         <th style={{color:"black"}} className="text-uppercase  text-sm  opacity-7 ps-2">Email</th>
         <th  style={{color:"black"}}className="text-uppercase  text-sm  opacity-7 ps-2">Date</th>
         <th  style={{color:"black"}}className="text-uppercase  text-sm  opacity-7 ps-2">Status</th>
@@ -294,9 +293,7 @@ const handleViewOrder = (orderId) => {
                     </div>
                 </div>
             </td>
-            <td>
-                <h6 style={{color:"black"}} className="mb-0 text-sm"><td>{order.nic}</td></h6>
-            </td>
+           
             <td>
                 <h6 style={{color:"black"}} className="mb-0 text-sm"><td>{order.email}</td></h6>
             </td>

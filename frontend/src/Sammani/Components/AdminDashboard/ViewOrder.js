@@ -301,9 +301,8 @@ const handleUpdateButtonClick = () => {
                 
     <thead style={{backgroundColor:"#d785b354"}}>
       <tr>
-      <th style={{color:"black"}} className="text-uppercase  text-sm  opacity-7 ps-2">ID</th>
-        <th style={{color:"black"}} className="text-uppercase  text-sm  opacity-7 ps-2">nic</th>
-        <th  style={{color:"black"}}className="text-uppercase  text-sm  opacity-7 ps-2">purchased date</th>
+        <th style={{color:"black"}} className="text-uppercase  text-sm  opacity-7 ps-2">purchased date</th>
+        <th  style={{color:"black"}}className="text-uppercase  text-sm  opacity-7 ps-2">email</th>
         <th  style={{color:"black"}}className="text-uppercase  text-sm  opacity-7 ps-2"> ITEMS</th>
         <th  style={{color:"black"}}className="text-uppercase  text-sm  opacity-7 ps-2"> Sub total</th>
         <th style={{color:"black"}} className="text-uppercase text-sm  opacity-7 ps-2">Discount</th>
@@ -313,14 +312,12 @@ const handleUpdateButtonClick = () => {
       </tr>
     </thead>
     <tbody><tr >
-    <td className="align-justify text-justify text-sm">
-                      <h6  className="mb-0 text-sm">{order.orderId}</h6>
-            </td>
-            <td className="align-justify text-justify text-sm">
-                <p style={{fontSize:"14px"}} className="font-weight-bold mb-0">{order.nic}</p>
-            </td>
+  
             <td className="align-justify text-justify text-sm">
                 <p style={{fontSize:"14px"}} className="font-weight-bold mb-0">{order.date}</p>
+            </td>
+            <td className="align-justify text-justify text-sm">
+                <p style={{fontSize:"14px"}} className="font-weight-bold mb-0">{order.email}</p>
             </td>
             <td className="align-justify text-justify text-sm">
                 <p style={{fontSize:"14px"}} className="font-weight-bold mb-0"> {calculateTotalQuantity()}</p>

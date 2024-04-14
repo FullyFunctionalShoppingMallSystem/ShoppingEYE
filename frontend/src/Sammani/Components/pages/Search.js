@@ -16,7 +16,7 @@ function Search(){
 
    const [fileList, setFileList] = useState([]);
    const [email, setEmail] = useState('');
-   const [description, setDescription] = useState('');
+
 //add
    
 const handleSubmit = async (e) => {
@@ -26,7 +26,7 @@ const handleSubmit = async (e) => {
      formData.append('image', file.originFileObj);
    });
    formData.append('email', email);
-   formData.append('description', description);
+
  
    try {
      await axios.post('http://localhost:8070/Tee/addTshirt', formData);
@@ -120,9 +120,8 @@ const handleSubmit = async (e) => {
                   className="form-control"  required/>  
     </div>
     <div className="input-group input-group-outline" style={{width:"500px", height:'20px', marginLeft:"30px", marginTop:"30px"}} >
-    <h6>Description :</h6>
-      <textarea type="text" name="discount" onChange={(e) => setDescription(e.target.value)}  style={{ border: "1px solid black",marginLeft:"20px" }}
-                  className="form-control"  required/>  
+    <button style={{marginLeft:"0px", marginTop:"20px"}} onClick={handleSubmit} className="btn bg-gradient-success mb-0" >Submit</button>
+
     </div>
 
         
@@ -130,7 +129,6 @@ const handleSubmit = async (e) => {
   
 </div>
 
-<button style={{marginLeft:"25px", marginTop:"20px"}} onClick={handleSubmit} className="btn bg-gradient-success mb-0" >Submit</button>
           
                   </form>
                   <br></br>
