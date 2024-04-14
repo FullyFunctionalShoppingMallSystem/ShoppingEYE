@@ -129,13 +129,20 @@ function ContactUs(){
                   </div>
                 </form>
               </div>
+            
             </div>
+            
+        
           </div>
+         
         </div>
+     
       </div>
+     
     </div>
+
   </section>
-{/* <Footer></Footer> */}
+
         </div>
        
     

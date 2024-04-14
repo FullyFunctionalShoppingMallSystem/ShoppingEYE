@@ -16,6 +16,7 @@ import Search from "./Sammani/Components/pages/Search.js";
 import Dashboard from "./Sammani/Components/AdminDashboard/Dashboard.js";
 import "react-toastify/dist/ReactToastify.css";
 import Sales from "./Sammani/Components/AdminDashboard/Sales.js";
+import Footer from "./Sammani/Components/Footer.js";
 
 
 
@@ -44,6 +45,7 @@ function App() {
          <Route path="/VirtualSearch" element={<Search />} />
          <Route path="/dashboard" element={<Dashboard />} />
          <Route path="/sales" element={<Sales />} />
+         <Route path="/qwe" element={<Footer />} />
        
         
        

@@ -20,7 +20,6 @@ const storage= multer.diskStorage({
         data: fs.readFileSync('uploads/' + req.file.filename),
         contentType: "image/png"
     },
-    description:req.body.description,
     email : req.body.email,
     date : req.body.date,
       
@@ -79,6 +78,16 @@ router.route("/get/:email").get(async (req, res) => {
 
 
   
+// Schedule a task to delete all Tshirt entries after 30 seconds
+setTimeout(async () => {
+  try {
+      await Tshirt.deleteMany({});
+      console.log('All Tshirt entries deleted.');
+  } catch (error) {
+      console.error('Error deleting all Tshirt entries:', error);
+  }
+}, 30 * 1000); // Run after 30 seconds
+
 
   
 

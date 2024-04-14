@@ -35,15 +35,14 @@ router.route("/").get((req,res)=>{
     })     
 
 })
-
-// Schedule a task to delete expired OverView entries every 30 seconds
-setInterval(async () => {
-    const thirtySecondsAgo = new Date(Date.now() - 30 * 1000); // Get the date/time 30 seconds ago
+//delete all after 24 hrs
+setTimeout(async () => {
     try {
-        await OverView.deleteMany({ date: { $lt: thirtySecondsAgo } });
+        await OverView.deleteMany({});
+        console.log('All OverView entries deleted.');
     } catch (error) {
-        console.error('Error deleting expired OverView entries:', error);
+        console.error('Error deleting all OverView entries:', error);
     }
-}, 24 * 60 * 60 * 1000); //24 hrs
+}, 24 * 60 * 60 * 1000); 
 
 module.exports = router;
