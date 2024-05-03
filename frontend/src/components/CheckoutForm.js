@@ -1,40 +1,91 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-export default function CheckoutForm() {
-  const [name, setName] = useState("");
-  const [cardnumber, setCardnumber] = useState("");
-  const [cvv, setCvv] = useState("");
-  const [expdate, setExpdate] = useState("");
+export default function CheckoutDetails() {
+  const [payments, setPayments] = useState([]);
+  const [cashReceiver, setCashReceiver] = useState({
+    name: "",
+    address: "",
+    contactNumber: "",
+    landmark: ""
+  });
 
-  function sendData(e) {
-    e.preventDefault();
+  useEffect (() => {
+    function getPayments() {
+      axios.get("http://localhost:8070/payment")
+        .then((res) => {
+          console.log(res);
+          setPayments(res.data);
+        })
+        .catch((err) => {
+          alert(err.message);
+        });
+    }
+    getPayments();
+  }, []);
 
-    const newCard = {
-      name,
-      cardnumber,
-      cvv,
-      expdate,
-    };
+  const handleCashReceiverChange = (e) => {
+    const { name, value } = e.target;
+    setCashReceiver({ ...cashReceiver, [name]: value });
+  };
 
-    axios.post("http://localhost:8070/payment/add", newCard)
-      .then(() => {
-        alert("Card Added");
-        setName("");
-        setCardnumber("");
-        setCvv("");
-        setExpdate("");
-      })
-      .catch((err) => {
-        alert(err);
+  const handleAddPaymentMethod = () => {
+    // Assuming you have an endpoint to save the cash payment method
+    axios.post("http://localhost:8070/payment", {
+      type: "cash",
+      receiver: cashReceiver
+    })
+    .then((res) => {
+      console.log(res);
+      setPayments([...payments, res.data]);
+      setCashReceiver({
+        name: "",
+        address: "",
+        contactNumber: "",
+        landmark: ""
       });
-  }
+    })
+    .catch((err) => {
+      alert(err.message);
+    });
+  };
 
   return (
     <div className="container">
-      <form onSubmit={sendData}>
-        {/* Your form inputs and submit button */}
-      </form>
+      <h1>Checkout Details</h1>
+      <div>
+        <h2>Add Payment Method</h2>
+        <label>Name:</label>
+        <input
+          type="text"
+          name="name"
+          value={cashReceiver.name}
+          onChange={handleCashReceiverChange}
+        />
+        <label>Address:</label>
+        <input
+          type="text"
+          name="address"
+          value={cashReceiver.address}
+          onChange={handleCashReceiverChange}
+        />
+        <label>Contact Number:</label>
+        <input
+          type="text"
+          name="contactNumber"
+          value={cashReceiver.contactNumber}
+          onChange={handleCashReceiverChange}
+        />
+        <label>Landmark:</label>
+        <input
+          type="text"
+          name="landmark"
+          value={cashReceiver.landmark}
+          onChange={handleCashReceiverChange}
+        />
+        <button onClick={handleAddPaymentMethod}>Add Payment Method</button>
+      </div>
+      {/* Display payment details */}
     </div>
   );
 }
