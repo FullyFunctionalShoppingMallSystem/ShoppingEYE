@@ -263,11 +263,11 @@ const handleEmailChange = (e) => {
       <div className="contact-us blog-author bg-gray-200">
          <Header />
          <div className="card card-body  shadow-blur mx-3 mx-md-4 mt-n6 mb-4" style={{ display: 'flex',backgroundColor:"#7da3c62b" }}>
-            <div style={{width:"260px"}}>
+            <div style={{width:"260px",marginRight:"10px"}}>
 <Ads2></Ads2>
 
             </div>
-            <div className="cards" style={{ marginTop: "25px", marginBottom: "50px" , marginLeft:"290px" }}>
+            <div className="cards" style={{ marginTop: "25px", marginBottom: "20px" , marginLeft:"280px" }}>
                <div className="row" style={{ height: "640px" }}>
                   <div className="col-md-8 carts" style={{ maxHeight: '685px', overflowY: 'scroll' }}>
                      <div className="cart-header" style={{ position: 'sticky', top: '-34px', background: 'white', zIndex: '1', padding: '17px 0', borderBottom: '14px solid #7eabd8' }}>
