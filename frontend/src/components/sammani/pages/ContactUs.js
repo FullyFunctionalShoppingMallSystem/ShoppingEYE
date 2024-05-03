@@ -4,6 +4,8 @@ import Header from "../MainHeader.js";
 // import Footer from "../Footer.js";
 import axios from "axios";  
 import "../assets/css/ContactUs.css"
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 
@@ -32,7 +34,20 @@ function ContactUs(){
       setEmail("");
       setMessage("");
 
-      alert("Issue details added successfully!");
+      toast.success('Issue details added successfully!', {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: {
+          backgroundColor: "black",
+          color: "white"
+        }
+      });
+
     } catch (error) {
       console.error("Error submitting form:", error);
     }
@@ -53,8 +68,8 @@ function ContactUs(){
     <div className="page-header min-vh-100">
       <div className="container">
         <div className="row">
-          <div className="col-6 d-lg-flex d-none h-100 my-auto pe-0 position-absolute top-0 start-6 text-center justify-content-center flex-column">
-            <div className="position-relative h-100 m-3 border-radius-lg d-flex flex-column justify-content-center bgimage"  
+          <div className="col-6 d-lg-flex d-none h-100 my-auto pe-0 position-absolute top-0 start-3 text-center justify-content-center flex-column">
+            <div className="position-relative h-100 m-3 border-radius-lg d-flex flex-column justify-content-center bgimg1"  
            style={{
             backgroundSize: 'cover',
             paddingRight:"45rem",
@@ -62,7 +77,7 @@ function ContactUs(){
           }} loading="lazy">
             </div>
           </div> 
-          <div className="col-xl-5 col-lg-6 col-md-7 d-flex flex-column ms-auto ms-lg-auto " style={{marginRight:"-4rem"}}>
+          <div className="col-xl-5 col-lg-6 col-md-7 d-flex flex-column ms-auto ms-lg-auto " >
             <div className="card d-flex blur justify-content-center shadow-lg my-sm-0 my-sm-6 mt-8 mb-5" >
               <div className="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
                 <div className="bg-gradient-primary shadow-primary border-radius-lg p-3">
@@ -146,7 +161,7 @@ function ContactUs(){
         </div>
        
     
-
+<ToastContainer/>
         </>
     )
 

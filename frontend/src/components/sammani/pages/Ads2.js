@@ -18,7 +18,7 @@ const Ads1 = () => {
   
     return (
         <ThemeProvider theme={theme}>
-            <div style={{ paddingTop: "200px", paddingBottom: "0px", paddingLeft: "15px", height:'180px'}}>
+            <div style={{ paddingTop: "200px", paddingBottom: "0px", height:'180px'}}>
                 <Box py={20}>
                     <Carousel style={{ width: "270px",   }} controls={false}>
                         <Carousel.Item interval={2000}>

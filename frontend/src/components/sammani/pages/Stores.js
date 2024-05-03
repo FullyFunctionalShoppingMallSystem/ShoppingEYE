@@ -21,7 +21,7 @@ import image1 from "../assets/img/ads1.jpg"
 import image2 from "../assets/img/image2.jpg"
 import Furniture from "./Furniture.js";
 import video6 from "../assets/img/Video6.mp4"
-import Footer from "../Footer.js"
+
 
 
 
