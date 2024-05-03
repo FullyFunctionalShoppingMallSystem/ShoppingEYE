@@ -307,7 +307,7 @@ useEffect(() => {
           </a>
         </li>
         <li className="nav-item">
-          <a className="nav-link text-white  " href="/loyaltyadminwatch">
+          <a className="nav-link text-white  " href="/person/personlist">
             <div className="text-white text-center me-2 d-flex align-items-center justify-content-center">
             <i className="material-icons opacity-10">face</i>
             </div>
