@@ -16,7 +16,10 @@ const paymentSchema = new Schema({
     },
     expdate: {
         type: Date,
-        //required: true
+        //required: true,
+    email:{
+        type : String
+    }
     },
 });
 
