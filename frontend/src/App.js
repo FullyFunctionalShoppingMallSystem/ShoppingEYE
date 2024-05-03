@@ -1,6 +1,4 @@
 import { BrowserRouter as Router, Route, Routes  } from "react-router-dom";
-
-
 import ContactUs from "./components/sammani/pages/ContactUs.js";
 import NavBar from "./components/sammani/NavBar.js";
 import ContactTable from "./components/sammani/AdminDashboard/ContactTable.js";
@@ -23,6 +21,8 @@ import Footer from "./components/sammani/Footer.js";
 
 
 
+
+
 function App() {
   
   return (
@@ -30,7 +30,7 @@ function App() {
       <div>
         <Routes>
 
-          //sammani
+          {/* //sammani */}
          <Route path="/Slider" element={<Slider />}></Route>
          <Route path="/contact-Us" element={<ContactUs />}></Route>
          <Route path="/Admin-Dashboard" element={<NavBar />}></Route>
@@ -49,11 +49,11 @@ function App() {
          <Route path="/sales" element={<Sales />} />
          <Route path="/qwe" element={<Footer />} />
        
-       //ravindu
+       {/* //ravindu */}
 
-       //sandaru
+       {/* //sandaru */}
 
-       //sandali
+       {/* //sandali */}
       
         
         </Routes>
