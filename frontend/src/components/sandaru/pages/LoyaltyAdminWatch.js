@@ -5,7 +5,7 @@ import "../assets/img/member.png";
 import LoyaltyIcon from '@mui/icons-material/Loyalty';
 import image1 from "../assets/img/logo.png"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSearch,faBell, faCog, faUser, faCalendarWeek } from '@fortawesome/free-solid-svg-icons';
+import { faSearch,faBell, faCog, faUser } from '@fortawesome/free-solid-svg-icons';
 
 
 
