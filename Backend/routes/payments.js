@@ -1,76 +1,87 @@
 const router = require("express").Router();
 let Payment = require("../models/payment");
 
-router.route("/add").post((req,res)=>{
-    const name = req.body.name;
-    const cardnumber = req.body.cardnumber;
-    const cvv= req.body.cvv;
-    const expdate = req.body.expdate;
+router.route("/add").post((req, res) => {
+    const { name, cardnumber, cvv, expdate } = req.body;
 
     const newPayment = new Payment({
         name,
         cardnumber,
         cvv,
         expdate
-    })
+    });
 
-    newPayment.save().then(()=>{
-        res.json("Payment added")
-    }).catch((err)=>{
-        console.log(err);
-    })
-})
+    newPayment.save()
+        .then(() => {
+            res.json("Payment added");
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(500).send({ status: "Error", message: "Error adding payment" });
+        });
+});
 
-router.route("/").get((req,res)=>{
-    Payment.find().then((payments)=>{
-        res.json(payments)
-    }).catch((err)=>{
-        console.log(err)
-    })
+router.route("/").get((req, res) => {
+    Payment.find()
+        .then((payments) => {
+            res.json(payments);
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(500).send({ status: "Error", message: "Error getting payments" });
+        });
+});
 
-})
-
-router.route("/update/:id").put(async(req,res)=>{
-    let userId = req.params.id;
-    const {name,cardnumber,cvv,expdate} = req.body;
+router.route("/update/:id").put(async (req, res) => {
+    let paymentId = req.params.id;
+    const { name, cardnumber, cvv, expdate } = req.body;
 
     const updatePayment = {
         name,
         cardnumber,
         cvv,
         expdate
+    };
+
+    try {
+        const updatedPayment = await Payment.findByIdAndUpdate(paymentId, updatePayment, { new: true });
+        if (!updatedPayment) {
+            return res.status(404).send({ status: "Error", message: "Payment not found" });
+        }
+        res.status(200).send({ status: "Payment updated", payment: updatedPayment });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send({ status: "Error", message: "Error updating payment" });
     }
+});
 
-    const update = await Payment.findByIdAndUpdate(userId, updatePayment)
-    .then(()=>{
-        res.status(200).send({status: "User updated", user:update})
-    }).catch((err)=>{
-        console.log(err);
-        res.status(500).send({status: "Error with updating data"});
-    })
-})
+router.route("/delete/:id").delete(async (req, res) => {
+    let paymentId = req.params.id;
 
-router.route("/delete/:id").delete(async(req,res)=>{
-    let userId = req.params.id;
+    try {
+        const deletedPayment = await Payment.findByIdAndDelete(paymentId);
+        if (!deletedPayment) {
+            return res.status(404).send({ status: "Error", message: "Payment not found" });
+        }
+        res.status(200).send({ status: "Payment deleted", payment: deletedPayment });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send({ status: "Error", message: "Error deleting payment" });
+    }
+});
 
-    await Payment.findByIdAndDelete(userId)
-    .then(()=>{
-        res.status(200).send({status: "User deleted"});
-    }).catch((err)=>{
-        console.log(err.message);
-        res.status(500).send({status: "Error with deleting data", error:err.message});
-    })
-})
-
-router.route("/get/:id").get(async(req,res)=>{
-    let userId=req.params.id;
-    await Payment.findById(userId)
-    .then((user)=>{
-        res.status(200).send({status: "User fetched", user: user})
-    }).catch((err)=>{
-        console.log(err.message);
-        res.status(500).send({status:"Error with getting user", error: err.message});
-    })
-})
+router.route("/get/:id").get(async (req, res) => {
+    let paymentId = req.params.id;
+    try {
+        const payment = await Payment.findById(paymentId);
+        if (!payment) {
+            return res.status(404).send({ status: "Error", message: "Payment not found" });
+        }
+        res.status(200).send({ status: "Payment fetched", payment: payment });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send({ status: "Error", message: "Error getting payment" });
+    }
+});
 
 module.exports = router;
