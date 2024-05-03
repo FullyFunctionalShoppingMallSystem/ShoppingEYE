@@ -8,7 +8,7 @@ const CreateLyl = require('../models/CreateLoyaltyModels')
   //update loyalty membership
   router.put('/update/:nic', async (req, res) => {
     try {
-      const loyaltymembers = await LoyaltyMembers.findByIdAndUpdate(req.params.nic, req.body, { new: true });
+      const loyaltymembers = await CreateLyl.findByIdAndUpdate(req.params.nic, req.body, { new: true });
       if (!loyaltymembers) {
         return res.status(404).json({ error: "Leave request not found" });
       }
@@ -22,7 +22,7 @@ const CreateLyl = require('../models/CreateLoyaltyModels')
 router.delete('/delete/:nic', async (req, res) => {
   try {
     // Find the loyalty membership by NIC and delete it
-    const deletedLoyalty = await CreateLoyalty.findOneAndDelete({ nic: req.params.nic });
+    const deletedLoyalty = await CreateLyl.findOneAndDelete({ nic: req.params.nic });
     if (!deletedLoyalty) {
       // If the loyalty membership with the provided NIC is not found, return a 404 error
       return res.status(404).json({ error: "Loyalty membership not found" });
