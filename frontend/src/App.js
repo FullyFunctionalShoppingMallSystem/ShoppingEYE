@@ -16,14 +16,15 @@ import Search from "./components/sammani/pages/Search.js";
 import Dashboard from "./components/sammani/AdminDashboard/Dashboard.js";
 import "react-toastify/dist/ReactToastify.css";
 import Sales from "./components/sammani/AdminDashboard/Sales.js";
-// import Footer from "./components/sammani/Footer.js";
+import HomeUI from "./components/sammani/pages/UIHome.js";
 
 //sandaru
 import CreateLoyalty from "./components/sandaru/pages/CreateLoyalty";
 import LoyaltyAdminWatch from "./components/sandaru/pages/LoyaltyAdminWatch";
 import ApprovedMemberships from "./components/sandaru/pages/ApproveMembers";
-import Home from "./components/sandaru/pages/Home";
-import Footer from "./components/sandaru/pages/Footer";
+// import Home from "./components/sandaru/pages/Home";
+import Footer from "./components/sandaru/pages/Footer.js";
+
 
 
 
@@ -53,6 +54,7 @@ function App() {
          <Route path="/dashboard" element={<Dashboard />} />
          <Route path="/sales" element={<Sales />} />
          <Route path="/qwe" element={<Footer />} />
+         <Route path="/mazza-gallarie" element={<HomeUI/>}/>
        
        {/* //ravindu */}
 
@@ -61,7 +63,7 @@ function App() {
        <Route path="/createLoyalty" element={<CreateLoyalty/>}/>   
        <Route path="/loyaltyadminwatch" element={<LoyaltyAdminWatch/>}/>
        <Route path="/approvedMemberships" element={<ApprovedMemberships/>}/>
-       <Route path="/Home" element={<Home/>}/>
+       {/* <Route path="/Home" element={<Home/>}/> */}
        <Route path="/Footer" element={<Footer/>}/>
        //sandali
 

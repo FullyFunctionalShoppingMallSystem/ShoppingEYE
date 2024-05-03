@@ -25,7 +25,7 @@ function Header(){
             <div className="collapse navbar-collapse pt-3 pb-2 py-lg-0 w-100" id="navigation">
               <ul className="navbar-nav navbar-nav-hover ms-auto">
               <li className="nav-item dropdown dropdown-hover mx-2">
-                  <a className="nav-link ps-2 d-flex cursor-pointer align-items-center" id="dropdownMenuBlocks" data-bs-toggle="dropdown" aria-expanded="false">
+                  <a className="nav-link ps-2 d-flex cursor-pointer align-items-center" href="/mazza-gallarie" id="dropdownMenuBlocks" data-bs-toggle="dropdown" aria-expanded="false">
                     <i className="material-icons opacity-6 me-2 text-md">home</i>
                    HOME
                    
