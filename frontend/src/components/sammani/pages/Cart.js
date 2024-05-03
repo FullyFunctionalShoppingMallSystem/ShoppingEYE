@@ -9,6 +9,7 @@ import axios from "axios";
 import { toast,ToastContainer  } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Ads2 from "./Ads2.js";
+import FooterUI from "../FooterUI.js";
 
 
 
@@ -377,7 +378,7 @@ const handleEmailChange = (e) => {
          
          {/* <Footer /> */}
       </div>
-     
+     <FooterUI/>
       <ToastContainer/>
       </>
    );

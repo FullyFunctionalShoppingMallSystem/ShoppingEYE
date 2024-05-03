@@ -9,6 +9,7 @@ import ImgCrop from 'antd-img-crop';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
+import FooterUI from "../FooterUI.js";
 
 
 
@@ -141,6 +142,7 @@ const handleSubmit = async (e) => {
             </div>
          </div>
       </div>
+      <FooterUI/>
       <ToastContainer/>
       </>
    );

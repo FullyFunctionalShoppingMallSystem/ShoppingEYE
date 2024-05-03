@@ -6,6 +6,7 @@ import axios from "axios";
 import "../assets/css/ContactUs.css"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import FooterUI from "../FooterUI.js";
 
 
 
@@ -159,9 +160,11 @@ function ContactUs(){
   </section>
 
         </div>
-       
+        <br></br>
+       <FooterUI/>
     
 <ToastContainer/>
+
         </>
     )
 
