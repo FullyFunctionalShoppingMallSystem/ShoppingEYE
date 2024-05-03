@@ -65,7 +65,17 @@ app.use("/Tee", tshirtRouter);
 
 
 //sandaru
+//create loyalty
+const createLoyaltyRouter = require("./routes/CreateLoyaltyRoutes");
+app.use("/createLoyalty",createLoyaltyRouter);
 
+//show loyalty membership to admin
+const loyaltyMembershipRouter = require("./routes/LoyaltyAdminWatchRoutes");
+app.use("/loyaltyAdminWatch",loyaltyMembershipRouter);
+
+//Add approved loyalty memberships 
+const approvedmembershipRouter = require("./routes/ApproveMembersRoutes");
+app.use("/approvedMemberships", approvedmembershipRouter);
 
 
 //sandali
