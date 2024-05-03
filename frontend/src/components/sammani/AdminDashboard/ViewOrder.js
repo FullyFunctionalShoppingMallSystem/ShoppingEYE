@@ -10,6 +10,7 @@ import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import headerImageURL from '../assets/img/logo.png';
 import image1 from "../assets/img/logo.png"
+import LoyaltyIcon from '@mui/icons-material/Loyalty';
 
 function ViewOrder() {
     const [order, setOrder] = useState(null);
@@ -222,7 +223,14 @@ const handleUpdateButtonClick = () => {
             <span className="nav-link-text ms-1">Contacts</span>
           </a>
         </li>
-
+        <li className="nav-item">
+          <a className="nav-link text-white  " href="/loyaltyadminwatch">
+            <div className="text-white text-center me-2 d-flex align-items-center justify-content-center">
+             <LoyaltyIcon></LoyaltyIcon>
+            </div>
+            <span className="nav-link-text ms-1">Memberships</span>
+          </a>
+        </li>
       </ul>
     </div>
     <div className="sidenav-footer position-absolute w-100 bottom-0 ">

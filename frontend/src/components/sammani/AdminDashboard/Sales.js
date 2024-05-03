@@ -8,6 +8,7 @@ import "../assets/css/popup.css"
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../assets/css/Sales.css"
+import LoyaltyIcon from '@mui/icons-material/Loyalty';
 
 
 
@@ -202,7 +203,14 @@ const checkButtonStatus = () => {
             <span className="nav-link-text ms-1">Contacts</span>
           </a>
         </li>
-
+        <li className="nav-item">
+          <a className="nav-link text-white  " href="/loyaltyadminwatch">
+            <div className="text-white text-center me-2 d-flex align-items-center justify-content-center">
+             <LoyaltyIcon/>
+            </div>
+            <span className="nav-link-text ms-1">Memberships</span>
+          </a>
+        </li>
       </ul>
     </div>
     <div className="sidenav-footer position-absolute w-100 bottom-0 ">
