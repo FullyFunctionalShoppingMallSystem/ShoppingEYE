@@ -25,6 +25,13 @@ import ApprovedMemberships from "./components/sandaru/pages/ApproveMembers";
 import Home from "./components/sandaru/pages/Home";
 import Footer from "./components/sandaru/pages/Footer";
 
+//ravindu
+import Login from './components/ravindu/Login';
+import SignupForm from './components/ravindu/SignupForm';
+import Profile from './components/ravindu/Profile';
+import EditDetails from './components/ravindu/EditDetails';
+import UserList from './components/ravindu/UserList';
+import Photos from './components/ravindu/Photos';
 
 
 
@@ -55,6 +62,12 @@ function App() {
          <Route path="/qwe" element={<Footer />} />
        
        {/* //ravindu */}
+       <Route path="/" element={<Login />} />
+        <Route path="/person/register" element= {<SignupForm/>}/>
+        <Route path="/person/editdetails" element= {<EditDetails/>}/>
+        <Route path="/person/profile" element={<Profile/>}/>
+        <Route path="/person/personlist" element={<UserList />}/>
+        <Route path='/photo' element={<Photos/>} />
 
 
        //sandaru
