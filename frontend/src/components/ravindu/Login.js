@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
-import Header from './MainHeader';
+
 import FooterUI from './FooterUI';
 import "./assets/css/login.css"
 
@@ -48,7 +48,7 @@ function LoginForm() {
   return (
     <>
     <div  className='bg'>
-    <Header/>
+  
     <div style={styles.container}>
       <h2 style={styles.title}>Login</h2>
       <form onSubmit={handleSubmit} style={styles.form}>
