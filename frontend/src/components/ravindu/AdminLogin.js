@@ -1,15 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
-function LoginForm() {
+function AdminLogin() {
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   });
 
   const [error, setError] = useState('');
-  const navigate = useNavigate(); // Initialize useNavigate
 
   const handleChange = (e) => {
     setFormData({
@@ -17,7 +15,6 @@ function LoginForm() {
       [e.target.name]: e.target.value
     });
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -32,7 +29,7 @@ function LoginForm() {
           email: data.person.email,
           dateOfBirth: data.person.dateOfBirth,
         }));
-        navigate('/person/profile'); // Redirect to profile using navigate
+        window.location.href = '/dashboard'; // Redirect to dashboard
       } else {
         throw new Error('Failed to login');
       }
@@ -42,9 +39,10 @@ function LoginForm() {
     }
   };
 
+
   return (
     <div style={styles.container}>
-      <h2 style={styles.title}>Login</h2>
+      <h2 style={styles.title}>Admin Login</h2>
       <form onSubmit={handleSubmit} style={styles.form}>
         <div style={styles.inputGroup}>
           <label style={styles.label}>Email</label>
@@ -68,16 +66,12 @@ function LoginForm() {
             required
           />
         </div>
-        
         <button type="submit" style={styles.button}>Login</button>
-        
       </form>
       {error && <div style={styles.error}>{error}</div>}
-      <a href='/person/register' style={{textDecoration: 'none', color: 'red'}}><h6>Not Registered ? Register Now</h6></a>
     </div>
   );
 }
-
 
 const styles = {
   container: {
@@ -129,4 +123,4 @@ const styles = {
   },
 };
 
-export default LoginForm;
+export default AdminLogin;

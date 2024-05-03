@@ -34,7 +34,7 @@ function SignupForm() {
 
       if (response.status === 201) {
         alert('Registration successful!');
-        navigate('/person/login'); // Redirect or perform any other action upon successful registration
+        navigate('/'); // Redirect or perform any other action upon successful registration
       } else {
         const errorMessage = response.data || 'Unknown error';
         console.error('Registration failed:', errorMessage);
@@ -54,11 +54,11 @@ function SignupForm() {
           <div className="row gx-lg-5 align-items-center">
             <div className="col-lg-6 mb-5 mb-lg-0">
               <h1 className="my-5 display-3 fw-bold ls-tight">
-              Where Fashion Meets Convenience: <br />
+                Where Fashion Meets Convenience: <br />
                 <span className="text-primary"> Elevate Your Style, Effortlessly.</span>
               </h1>
               <p style={{ color: 'hsl(217, 10%, 50.8%)' }}>
-              Welcome to Mazza Gallery, your go-to online fashion haven. Discover the perfect blend of style and convenience as you explore our curated collection. From the latest trends to timeless classics, Mazza Gallery has everything you need to elevate your wardrobe effortlessly. Shop with ease and style at Mazza Gallery, where fashion meets convenience.
+                Welcome to Mazza Gallery, your go-to online fashion haven. Discover the perfect blend of style and convenience as you explore our curated collection. From the latest trends to timeless classics, Mazza Gallery has everything you need to elevate your wardrobe effortlessly. Shop with ease and style at Mazza Gallery, where fashion meets convenience.
               </p>
             </div>
 
@@ -77,6 +77,7 @@ function SignupForm() {
                             value={formData.firstName}
                             onChange={handleChange}
                             required
+                            placeholder="John" // Placeholder added
                           />
                           <label className="form-label" htmlFor="firstName">First name</label>
                         </div>
@@ -91,6 +92,7 @@ function SignupForm() {
                             value={formData.lastName}
                             onChange={handleChange}
                             required
+                            placeholder="Doe" // Placeholder added
                           />
                           <label className="form-label" htmlFor="lastName">Last name</label>
                         </div>
@@ -106,6 +108,7 @@ function SignupForm() {
                         value={formData.email}
                         onChange={handleChange}
                         required
+                        placeholder="email@example.com" // Placeholder added
                       />
                       <label className="form-label" htmlFor="email">Email address</label>
                     </div>
@@ -119,6 +122,7 @@ function SignupForm() {
                         value={formData.password}
                         onChange={handleChange}
                         required
+                        placeholder="********" // Placeholder added
                       />
                       <label className="form-label" htmlFor="password">Password</label>
                     </div>
@@ -138,7 +142,7 @@ function SignupForm() {
 
                     {error && <p>{error}</p>}
                     <button type="submit" className="btn btn-primary btn-block mb-4">Sign up</button>
-
+                   
                     <div className="text-center">
                       <p>or sign up with:</p>
                       <button type="button" className="btn btn-link btn-floating mx-1">

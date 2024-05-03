@@ -32,6 +32,7 @@ import Profile from './components/ravindu/Profile';
 import EditDetails from './components/ravindu/EditDetails';
 import UserList from './components/ravindu/UserList';
 import Photos from './components/ravindu/Photos';
+import AdminLogin from './components/ravindu/AdminLogin';
 
 
 
@@ -68,7 +69,8 @@ function App() {
         <Route path="/person/profile" element={<Profile/>}/>
         <Route path="/person/personlist" element={<UserList />}/>
         <Route path='/photo' element={<Photos/>} />
-
+        <Route path="/person/admin" element={<AdminLogin />} />
+       
 
        //sandaru
        <Route path="/createLoyalty" element={<CreateLoyalty/>}/>   
