@@ -1,5 +1,5 @@
 import React from "react";
-import "./assets/css/headerUI.css"
+import "../../components/sammani/assets/css/headerUI.css"
 
 function Footer(){
     return(
