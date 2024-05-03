@@ -9,7 +9,7 @@ import headerImageURL from '../assets/img/logo.png';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import image1 from "../assets/img/logo.png"
-
+import LoyaltyIcon from '@mui/icons-material/Loyalty';
 
 
 function ContactTable(){
@@ -192,7 +192,14 @@ function ContactTable(){
             <span className="nav-link-text ms-1">Contacts</span>
           </a>
         </li>
-
+        <li className="nav-item">
+          <a className="nav-link text-white  " href="/loyaltyadminwatch">
+            <div className="text-white text-center me-2 d-flex align-items-center justify-content-center">
+             <LoyaltyIcon/>
+            </div>
+            <span className="nav-link-text ms-1">Memberships</span>
+          </a>
+        </li>
       </ul>
     </div>
     <div className="sidenav-footer position-absolute w-100 bottom-0 ">

@@ -4,7 +4,7 @@ import axios from "axios";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch, faBookOpen , faTrashAlt,faUser,faBell,faCog} from '@fortawesome/free-solid-svg-icons'; 
 import image1 from "../assets/img/logo.png"
-
+import LoyaltyIcon from '@mui/icons-material/Loyalty';
 
 
 function AddShop(){
@@ -169,6 +169,14 @@ const [storeID, setStoreID] = useState("");
               <i className="material-icons opacity-10">list</i>
             </div>
             <span className="nav-link-text ms-1">Contacts</span>
+          </a>
+        </li>
+        <li className="nav-item">
+          <a className="nav-link text-white  " href="/loyaltyadminwatch">
+            <div className="text-white text-center me-2 d-flex align-items-center justify-content-center">
+             <LoyaltyIcon/>
+            </div>
+            <span className="nav-link-text ms-1">Memberships</span>
           </a>
         </li>
 

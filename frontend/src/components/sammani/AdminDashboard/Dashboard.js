@@ -8,7 +8,7 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import image1 from "../assets/img/logo.png"
 import moment from 'moment';
-
+import LoyaltyIcon from '@mui/icons-material/Loyalty';
 
 
 
@@ -296,6 +296,14 @@ useEffect(() => {
               <i className="material-icons opacity-10">list</i>
             </div>
             <span className="nav-link-text ms-1">Contacts</span>
+          </a>
+        </li>
+        <li className="nav-item">
+          <a className="nav-link text-white  " href="/loyaltyadminwatch">
+            <div className="text-white text-center me-2 d-flex align-items-center justify-content-center">
+            <LoyaltyIcon/>
+            </div>
+            <span className="nav-link-text ms-1">Memberships</span>
           </a>
         </li>
 
