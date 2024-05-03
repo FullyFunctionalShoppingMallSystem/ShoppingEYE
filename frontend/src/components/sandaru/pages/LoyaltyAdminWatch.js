@@ -3,12 +3,16 @@ import axios from "axios";
 import "../assets/css/pageUI.css";
 import "../assets/img/member.png";
 import LoyaltyIcon from '@mui/icons-material/Loyalty';
+import image1 from "../assets/img/logo.png"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSearch,faBell, faCog, faUser } from '@fortawesome/free-solid-svg-icons';
 
 
 
 
 function LoyaltyAdminWatch() {
   const [loyalties, setLoyalties] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
   
   useEffect(() => {
     fetchApprovedLoyalties();
@@ -24,6 +28,22 @@ function LoyaltyAdminWatch() {
       });
   };
 
+  const handleSearchChange = (event) => {
+    const searchTerm = event.target.value;
+    setSearchTerm(searchTerm);
+  
+    axios.get(`http://localhost:8070/getEmail/${searchTerm}`)
+      .then(response => {
+        setLoyalties(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching loyalties by email:', error);
+      });
+  };
+  const filteredLoyalty = loyalties.filter(loyalty =>
+    loyalty.email.startsWith(searchTerm)
+  );
+  
   const handleApprove = (loyalty) => {
     
     const approvedMembership = {
@@ -67,8 +87,8 @@ function LoyaltyAdminWatch() {
     <div className="sidenav-header">
       <i className="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
       <a className="navbar-brand m-0" href=" " target="_blank">
-       
-        <span className="ms-1 font-weight-bold text-white">MAZZA GALLERIE</span>
+      <img src={image1} className="navbar-brand-img "  alt="main_logo"/> 
+        <span className="ms-2 font-weight-bold text-white " style={{marginTop:"10px"}}  > MAZZA GALLERIE</span>
       </a>
     </div>
     <hr className="horizontal light mt-0 mb-2"/>
@@ -130,7 +150,7 @@ function LoyaltyAdminWatch() {
             </div>
             <span className="nav-link-text ms-1">Users</span>
           </a>
-        </li>
+ </li>
 
       </ul>
     </div>
@@ -161,58 +181,33 @@ function LoyaltyAdminWatch() {
         <div className="ms-md-auto pe-md-3 d-flex align-items-center">
             <div className="input-group input-group-outline  ">
              
-              <input style={{width:"300px"}} type="text" className="form-control" placeholder="Search Order..."
+            <input value={searchTerm} onChange={handleSearchChange} placeholder="Search by email..." style={{width:"300px",height:"40px"}} type="text" className="form-control"
+               id="searchContacts" 
               
-             
               
                />
-            
+            <button  className="btn btn-primary"type="button"> <FontAwesomeIcon icon={faSearch} size="lg" ></FontAwesomeIcon> </button>
             </div>
-          </div>
-
-       
-          <ul className="navbar-nav  justify-content-end">
+          </div>         
           
-            
-            
-            <li className="nav-item px-3 d-flex align-items-center">
-              <a href="" className="nav-link text-body p-0">
-                <i className="fa fa-cog fixed-plugin-button-nav cursor-pointer"></i>
-              </a>
-            </li>
-            <li className="nav-item dropdown pe-2 d-flex align-items-center">
-              <a href="" className="nav-link text-body p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                <i className="fa fa-bell cursor-pointer"></i>
-              </a>
-              <ul className="dropdown-menu  dropdown-menu-end  px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton">
-                <li className="mb-2">
-                  <a className="dropdown-item border-radius-md" href="">
-                    <div className="d-flex py-1">
-                      <div className="my-auto">
-                        <img src="../assets/img/team-2.jpg" className="avatar avatar-sm  me-3 "/>
-                      </div>
-                     
-                    </div>
-                  </a>
-                </li>
-                <li className="mb-2">
-                  <a className="dropdown-item border-radius-md" href="">
-                    <div className="d-flex py-1">
-                      <div className="my-auto">
-                        <img src="../assets/img/small-logos/logo-spotify.svg" className="avatar avatar-sm bg-gradient-dark  me-3 "/>
-                      </div>
-                    </div>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li className="nav-item d-flex align-items-center">
-              <a href="" className="nav-link text-body font-weight-bold px-0">
-                <i className="fa fa-user me-sm-1"></i>
-              
-              </a>
-            </li>
-          </ul>
+           <ul className="navbar-nav  justify-content-end">
+          <li className="nav-item px-3 d-flex align-items-center">
+            <a href="" className="nav-link text-body p-0">
+            <FontAwesomeIcon icon={faBell} size="1x" style={{margin: "auto"}} />
+            </a>
+          </li>
+          <li className="nav-item px-3 d-flex align-items-center">
+            <a href="" className="nav-link text-body p-0">
+            <FontAwesomeIcon icon={faCog} size="1x" style={{margin: "auto"}} />
+            </a>
+          </li>
+
+          <li className="nav-item px-3 d-flex align-items-center">
+            <a href="" className="nav-link text-body p-0">
+            <FontAwesomeIcon icon={faUser} size="1x" style={{margin: "auto"}} />
+            </a>
+          </li>
+        </ul>
         </div>
       </div>
     </nav>
@@ -234,7 +229,7 @@ function LoyaltyAdminWatch() {
               <div>
             
             <ul>
-                {loyalties.map(loyalty => (
+                {filteredLoyalty.map(loyalty => (
                     <li key={loyalty._id}>
                         <p>Name: {loyalty.fullName}</p>
                         <p>NIC: {loyalty.nic}</p>
@@ -259,18 +254,6 @@ function LoyaltyAdminWatch() {
             </div>
             <div className="card-body px-0 pb-2">
               <div className="table-responsive p-0">
-
-
-
-
-
-
-
-
-
-
-
-
 
                </div>           
                </div>          
