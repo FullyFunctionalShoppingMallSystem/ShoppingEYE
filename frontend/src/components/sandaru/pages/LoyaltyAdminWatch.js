@@ -123,6 +123,14 @@ function LoyaltyAdminWatch() {
             <span className="nav-link-text ms-1">Memberships</span>
           </a>
         </li>
+        <li className="nav-item">
+          <a className="nav-link text-white  " href="/person/personlist">
+            <div className="text-white text-center me-2 d-flex align-items-center justify-content-center">
+            <i className="material-icons opacity-10">face</i>
+            </div>
+            <span className="nav-link-text ms-1">Users</span>
+          </a>
+        </li>
 
       </ul>
     </div>
