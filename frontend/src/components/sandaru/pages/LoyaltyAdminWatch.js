@@ -12,6 +12,7 @@ import { faSearch,faBell, faCog, faUser, faCalendarWeek } from '@fortawesome/fre
 
 function LoyaltyAdminWatch() {
   const [loyalties, setLoyalties] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
   
   useEffect(() => {
     fetchApprovedLoyalties();
@@ -27,6 +28,22 @@ function LoyaltyAdminWatch() {
       });
   };
 
+  const handleSearchChange = (event) => {
+    const searchTerm = event.target.value;
+    setSearchTerm(searchTerm);
+  
+    axios.get(`http://localhost:8070/getEmail/${searchTerm}`)
+      .then(response => {
+        setLoyalties(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching loyalties by email:', error);
+      });
+  };
+  const filteredLoyalty = loyalties.filter(loyalty =>
+    loyalty.email.startsWith(searchTerm)
+  );
+  
   const handleApprove = (loyalty) => {
     
     const approvedMembership = {
@@ -164,12 +181,12 @@ function LoyaltyAdminWatch() {
         <div className="ms-md-auto pe-md-3 d-flex align-items-center">
             <div className="input-group input-group-outline  ">
              
-            <input style={{width:"300px",height:"40px"}} type="text" className="form-control" placeholder="Search Order..."
+            <input value={searchTerm} onChange={handleSearchChange} placeholder="Search by email..." style={{width:"300px",height:"40px"}} type="text" className="form-control"
                id="searchContacts" 
               
               
                />
-            <button className="btn btn-primary"type="button"> <FontAwesomeIcon icon={faSearch} size="lg" ></FontAwesomeIcon> </button>
+            <button  className="btn btn-primary"type="button"> <FontAwesomeIcon icon={faSearch} size="lg" ></FontAwesomeIcon> </button>
             </div>
           </div>         
           
@@ -212,7 +229,7 @@ function LoyaltyAdminWatch() {
               <div>
             
             <ul>
-                {loyalties.map(loyalty => (
+                {filteredLoyalty.map(loyalty => (
                     <li key={loyalty._id}>
                         <p>Name: {loyalty.fullName}</p>
                         <p>NIC: {loyalty.nic}</p>
@@ -237,18 +254,6 @@ function LoyaltyAdminWatch() {
             </div>
             <div className="card-body px-0 pb-2">
               <div className="table-responsive p-0">
-
-
-
-
-
-
-
-
-
-
-
-
 
                </div>           
                </div>          
