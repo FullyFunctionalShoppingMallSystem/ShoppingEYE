@@ -1,6 +1,6 @@
 import React from "react";
-import "../assets/css/pageUI.css"
-import image from "../assets/img/logo.png"
+import "./assets/css/pageUI.css"
+import image from "./assets/img/logo.png"
 
 function Header(){
   return(

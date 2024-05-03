@@ -4,6 +4,7 @@ import { faFacebookF, faTwitter, faInstagram } from '@fortawesome/free-brands-sv
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import Header from './MainHeader';
 
 const Profile = () => {
   const initialPersonData = JSON.parse(localStorage.getItem('personData')) || {};
@@ -59,6 +60,11 @@ const Profile = () => {
   };
 
   return (
+    <div>
+<di>
+  <Header/>
+</di>
+   
     <section>
       <div>
         <div>
@@ -121,6 +127,7 @@ const Profile = () => {
         </div>
       </div>
     </section>
+    </div>
   );
 };
 
