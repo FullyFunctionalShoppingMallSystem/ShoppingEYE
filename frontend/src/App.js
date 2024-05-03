@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route, Routes  } from "react-router-dom";
 
-//sammani
+
 import ContactUs from "./components/sammani/pages/ContactUs.js";
 import NavBar from "./components/sammani/NavBar.js";
 import ContactTable from "./components/sammani/AdminDashboard/ContactTable.js";
@@ -20,13 +20,6 @@ import "react-toastify/dist/ReactToastify.css";
 import Sales from "./components/sammani/AdminDashboard/Sales.js";
 import Footer from "./components/sammani/Footer.js";
 
-//ravindu
-
-
-//sandaru
-
-
-//sandali
 
 
 
