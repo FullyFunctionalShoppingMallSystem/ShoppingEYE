@@ -5,6 +5,8 @@ import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Header from './MainHeader';
+import "./assets/css/pageUI.css"
+import FooterUI from './FooterUI';
 
 const Profile = () => {
   const initialPersonData = JSON.parse(localStorage.getItem('personData')) || {};
@@ -61,11 +63,11 @@ const Profile = () => {
 
   return (
     <div>
-<di>
+
   <Header/>
-</di>
+
    
-    <section>
+    <section style={{marginTop:'100px'}}>
       <div>
         <div>
           <div>
@@ -127,7 +129,9 @@ const Profile = () => {
         </div>
       </div>
     </section>
+    <FooterUI/>
     </div>
+
   );
 };
 
