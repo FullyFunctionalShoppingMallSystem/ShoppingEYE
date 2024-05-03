@@ -11,7 +11,7 @@ function Header(){
       <div className="col-12">
         <nav className="navbar navbar-expand-lg  blur border-radius-xl mt-4 top-0 z-index-3 shadow position-absolute my-3 py-2 start-2 end-0 mx-0"  >
           <div className="container-fluid px-0">
-            <a className="navbar-brand font-weight-bolder ms-sm-3"  href=""  data-placement="bottom" >
+            <a className="navbar-brand font-weight-bolder ms-sm-3"  href="/mazza-gallarie"  data-placement="bottom" >
               <img src={image} style={{width:"30px" , height:"30px", marginBottom:"5px"}} ></img>
               &nbsp; MAZZA GALLERIE
             </a>
@@ -114,13 +114,15 @@ function Header(){
                 <i className="material-icons opacity-6 me-2 text-md">people</i>
                 PROFILE
                    </a>
-                   <div className="dropdown-menu dropdown-menu-animation ms-n3 dropdown-md p-3 border-radius-xl mt-0 mt-lg-3" aria-labelledby="dropdownMenuPages">
-                    <div className="d-none d-lg-block">
-                    
-                      <h6 className="dropdown-header text-dark font-weight-bolder d-flex align-items-center px-1 mt-3">
-                        Account
-                      </h6>
-                      <a href="../pages/sign-in.html" className="dropdown-item border-radius-md">
+                   <div className="dropdown-menu dropdown-menu-animation dropdown-md p-3 border-radius-xl  mt-lg-3" aria-labelledby="dropdownMenuPages" >
+                    <div className="d-none d-lg-block" style={{marginRight:"30px"}}>
+                    <a href="" className="dropdown-item border-radius-md">
+                        <span>Transactions</span>
+                      </a>
+                      <a href="" className="dropdown-item border-radius-md">
+                        <span>Payment Methods</span>
+                      </a>
+                      <a href="" className="dropdown-item border-radius-md">
                         <span>Sign Out</span>
                       </a>
                     </div>
