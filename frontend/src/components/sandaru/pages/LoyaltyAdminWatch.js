@@ -5,8 +5,10 @@ import "../assets/img/member.png";
 import LoyaltyIcon from '@mui/icons-material/Loyalty';
 import image1 from "../assets/img/logo.png"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSearch,faBell, faCog, faUser } from '@fortawesome/free-solid-svg-icons';
-
+import { faSearch,faBell, faCog, faUser, faDownload } from '@fortawesome/free-solid-svg-icons';
+import headerImageURL from '../assets/img/logo.png';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 
 
 
@@ -78,6 +80,61 @@ function LoyaltyAdminWatch() {
       });
   };
      
+
+
+
+  //pdf
+
+
+  const generatePDF = () => {
+    // Create a new jsPDF instance
+    const customPageSize = { width: 590, height: 1000 };
+    const pdf = new jsPDF('p', 'pt', [customPageSize.width, customPageSize.height]);
+    const imgWidth = 50;
+    const imgHeight = 50;
+    pdf.addImage(headerImageURL, 'PNG', 30, 10, imgWidth, imgHeight);
+  
+    // Add logo and mall name
+    const mallName = 'MAZZA GALLERIE';
+    pdf.setFontSize(12);
+    pdf.text(mallName, 80, 38);
+    pdf.setFontSize(10);
+    pdf.text('Online Shopping Mall Management', 80, 52);
+  
+    pdf.setFontSize(13);
+    pdf.setTextColor(0, 0, 0);
+    pdf.text('Loyalty Memberships', 40, 95);
+  
+    // Define the table headers
+    const headers = [['Name', 'NIC', 'Email', 'Phone']];
+  
+    // Extract data for the table rows
+    const data = filteredLoyalty.map(loyalty => [loyalty.fullName || '', loyalty.nic || '', loyalty.email || '', loyalty.phone || '']);
+  
+    // Set the table width and height
+    const tableWidth = 450;
+    const tableHeight = 40;
+  
+    // AutoTable plugin to generate the table
+    pdf.autoTable({
+      startY: 110,
+      head: headers,
+      body: data,
+      theme: 'striped',
+      margin: { top: 20, left: 40 },
+      styles: { fontSize: 10, cellPadding: 3, overflow: 'linebreak' },
+      columnStyles: { 0: { cellWidth: 100 }, 1: { cellWidth: 100 }, 2: { cellWidth: 150 }, 3: { cellWidth: 100 } }
+    });
+  
+    const printedDate = new Date().toLocaleDateString();
+    pdf.setFontSize(10);
+    pdf.setTextColor(0, 0, 0);
+    pdf.text(`Printed on: ${printedDate}`, 40, 950);
+  
+    // Save the PDF
+    pdf.save(`Mazza_Gallerie_Loyalty_Memberships_${new Date().toISOString()}.pdf`);
+  };
+
 
     return(
         <>
@@ -211,8 +268,10 @@ function LoyaltyAdminWatch() {
         </div>
       </div>
     </nav>
-    
+
     <div className="container-fluid py-4">
+    <button onClick={generatePDF} style={{marginLeft:"30px"}} className="btn btn-dark" type="button"> <FontAwesomeIcon icon={faDownload}  size="lg"></FontAwesomeIcon> Generate PDF</button>
+
       <div className="row">
         <div className="col-12">
           <div className="card my-4">
