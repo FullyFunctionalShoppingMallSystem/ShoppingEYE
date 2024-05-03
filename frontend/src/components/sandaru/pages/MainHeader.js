@@ -84,7 +84,7 @@ function Header(){
                 <li className="nav-item dropdown dropdown-hover mx-2">
                   <a className="nav-link ps-2 d-flex cursor-pointer align-items-center" id="dropdownMenuBlocks" data-bs-toggle="dropdown" aria-expanded="false">
                     <i className="material-icons opacity-6 me-2 text-md">view_day</i>
-                    SALES
+                    Events
                    
                   </a>
                 </li>
