@@ -26,7 +26,7 @@ const PORT = process.env.PORT || 8070;
 console.log("Mongodb Connection success!");
  });
 
-
+//sammani
  const storeRouter = require("./routes/stores.js");
  app.use("/store",storeRouter);
 
@@ -62,6 +62,19 @@ app.use("/code", codeRouter);
 
 const tshirtRouter = require("./routes/tshirt.js");
 app.use("/Tee", tshirtRouter);
+
+
+//sandaru
+
+
+
+//sandali
+
+
+
+//ravindu
+
+
 
 
  app.listen(PORT, () => {
