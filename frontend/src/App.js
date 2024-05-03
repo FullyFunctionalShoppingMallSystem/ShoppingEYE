@@ -26,6 +26,14 @@ import ApprovedMemberships from "./components/sandaru/pages/ApproveMembers";
 import Footer from "./components/sandaru/pages/Footer.js";
 
 
+//ravindu
+import Login from './components/ravindu/Login';
+import SignupForm from './components/ravindu/SignupForm';
+import Profile from './components/ravindu/Profile';
+import EditDetails from './components/ravindu/EditDetails';
+import UserList from './components/ravindu/UserList';
+import Photos from './components/ravindu/Photos';
+import AdminLogin from './components/ravindu/AdminLogin';
 
 
 
@@ -57,7 +65,14 @@ function App() {
          <Route path="/mazza-gallarie" element={<HomeUI/>}/>
        
        {/* //ravindu */}
-
+       <Route path="/" element={<Login />} />
+        <Route path="/person/register" element= {<SignupForm/>}/>
+        <Route path="/person/editdetails" element= {<EditDetails/>}/>
+        <Route path="/person/profile" element={<Profile/>}/>
+        <Route path="/person/personlist" element={<UserList />}/>
+        <Route path='/photo' element={<Photos/>} />
+        <Route path="/person/admin" element={<AdminLogin />} />
+       
 
        //sandaru
        <Route path="/createLoyalty" element={<CreateLoyalty/>}/>   

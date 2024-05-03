@@ -83,6 +83,13 @@ app.use("/approvedMemberships", approvedmembershipRouter);
 
 
 //ravindu
+//person router
+const personRoutes = require('./routes/person.js');
+app.use('/person', personRoutes);
+
+//photo router
+const socialPRoutes = require('./routes/socialP.js');
+app.use('/socialP', socialPRoutes);
 
 
 
