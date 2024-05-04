@@ -318,7 +318,7 @@ const handleEmailChange = (e) => {
                      <div><h5><b>Summary</b></h5></div>
                      <hr />
                      <div className="row">
-                        <div className="col" style={{fontWeight: "bold", paddingLeft: "1" }}> ITEMS</div>
+                        <div className="col" style={{fontWeight: "bold", paddingLeft: "0" }}>ITEMS</div>
                         <div className="col" style={{fontWeight: "bold", paddingLeft: "0" }}>{data.length}</div>
                         <div className="col text-right" style={{fontWeight:"bold"}}>Rs {((data.reduce((acc, item) => acc + parseFloat(item.price), 0)) + 350 - (discount !== null ? ((parseFloat(discount) / 100) * data.reduce((acc, item) => acc + parseFloat(item.price), 0)) : 0)).toFixed(2)}
 </div>
