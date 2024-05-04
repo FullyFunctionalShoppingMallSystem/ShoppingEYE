@@ -5,7 +5,7 @@ import "../assets/img/member.png";
 import LoyaltyIcon from '@mui/icons-material/Loyalty';
 import image1 from "../assets/img/logo.png"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSearch,faBell, faCog, faUser, faDownload } from '@fortawesome/free-solid-svg-icons';
+import { faSearch,faBell, faCog, faUser, faDownload, faList } from '@fortawesome/free-solid-svg-icons';
 import headerImageURL from '../assets/img/logo.png';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
@@ -271,6 +271,7 @@ function LoyaltyAdminWatch() {
 
     <div className="container-fluid py-4">
     <button onClick={generatePDF} style={{marginLeft:"30px"}} className="btn btn-dark" type="button"> <FontAwesomeIcon icon={faDownload}  size="lg"></FontAwesomeIcon> Generate PDF</button>
+   <a href="/approvedMemberships"> <button style={{marginLeft:"30px"}} className="btn btn-success" type="button"> <FontAwesomeIcon icon={faList}  size="lg"></FontAwesomeIcon> Approved List</button></a>
 
       <div className="row">
         <div className="col-12">
