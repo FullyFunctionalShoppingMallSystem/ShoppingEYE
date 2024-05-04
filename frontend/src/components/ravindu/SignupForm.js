@@ -3,6 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookF, faGoogle, faTwitter, faGithub } from '@fortawesome/free-brands-svg-icons';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import FooterUI from './FooterUI';
+import RegisterHeader from './RegisterHeader';
 
 function SignupForm() {
   const [formData, setFormData] = useState({
@@ -48,8 +50,13 @@ function SignupForm() {
 
 
   return (
+    <div style={{ backgroundColor: 'hsl(0, 0%, 96%)' }} >
+    <RegisterHeader/>
+    <br></br>
+    <br></br>
+    <br></br>
     <section>
-      <div className="px-4 py-5 px-md-5 text-center text-lg-start" style={{ backgroundColor: 'hsl(0, 0%, 96%)' }}>
+      <div className="px-4 py-5 px-md-5 text-center text-lg-start" >
         <div className="container">
           <div className="row gx-lg-5 align-items-center">
             <div className="col-lg-6 mb-5 mb-lg-0">
@@ -61,8 +68,13 @@ function SignupForm() {
                 Welcome to Mazza Gallery, your go-to online fashion haven. Discover the perfect blend of style and convenience as you explore our curated collection. From the latest trends to timeless classics, Mazza Gallery has everything you need to elevate your wardrobe effortlessly. Shop with ease and style at Mazza Gallery, where fashion meets convenience.
               </p>
             </div>
-
+           
             <div className="col-lg-6 mb-5 mb-lg-0">
+            <div className="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
+                <div className="bg-gradient-primary shadow-primary border-radius-lg p-3">
+                  <h3 className="text-white text-primary mb-0">REGISTER FOR MAZZA GALLARIE</h3>
+                </div>
+              </div>
               <div className="card">
                 <div className="card-body py-5 px-md-5">
                   <form onSubmit={handleSubmit}>
@@ -77,7 +89,8 @@ function SignupForm() {
                             value={formData.firstName}
                             onChange={handleChange}
                             required
-                            placeholder="John" // Placeholder added
+                            placeholder=" John" // Placeholder added
+                            style={{border:"1px solid black",padding:"5px"}}
                           />
                           <label className="form-label" htmlFor="firstName">First name</label>
                         </div>
@@ -93,6 +106,7 @@ function SignupForm() {
                             onChange={handleChange}
                             required
                             placeholder="Doe" // Placeholder added
+                            style={{border:"1px solid black",padding:"5px"}}
                           />
                           <label className="form-label" htmlFor="lastName">Last name</label>
                         </div>
@@ -109,6 +123,7 @@ function SignupForm() {
                         onChange={handleChange}
                         required
                         placeholder="email@example.com" // Placeholder added
+                        style={{border:"1px solid black",padding:"5px"}}
                       />
                       <label className="form-label" htmlFor="email">Email address</label>
                     </div>
@@ -123,6 +138,7 @@ function SignupForm() {
                         onChange={handleChange}
                         required
                         placeholder="********" // Placeholder added
+                        style={{border:"1px solid black",padding:"5px"}}
                       />
                       <label className="form-label" htmlFor="password">Password</label>
                     </div>
@@ -136,6 +152,7 @@ function SignupForm() {
                         value={formData.dateOfBirth}
                         onChange={handleChange}
                         required
+                        style={{border:"1px solid black",padding:"5px"}}
                       />
                       <label className="form-label" htmlFor="dateOfBirth">Date of Birth</label>
                     </div>
@@ -169,6 +186,8 @@ function SignupForm() {
         </div>
       </div>
     </section>
+    <FooterUI/>
+    </div>
   );
 }
 

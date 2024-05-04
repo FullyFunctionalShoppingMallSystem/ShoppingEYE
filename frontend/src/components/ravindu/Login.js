@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
-import Header from './MainHeader';
+import SignInHeader from './SignInHeader';
 import FooterUI from './FooterUI';
 import "./assets/css/login.css"
 
@@ -48,6 +48,7 @@ function LoginForm() {
   return (
     <>
     <div  className='bg'>
+      <SignInHeader/>
   <br></br>
     <div style={styles.container}>
       <h2 style={styles.title}>Login</h2>
@@ -96,6 +97,7 @@ const styles = {
     maxWidth: '400px',
     margin: '0 auto',
     padding: '20px',
+    marginTop: '100px',
     backgroundColor: '#f4f4f4',
     borderRadius: '5px',
     boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
