@@ -35,6 +35,9 @@ import UserList from './components/ravindu/UserList';
 import Photos from './components/ravindu/Photos';
 import AdminLogin from './components/ravindu/AdminLogin';
 
+//sandli
+import CheckoutDetails from "./components/sandali/CheckoutDetails.js";
+import CheckoutForm from "./components/sandali/CheckoutForm.js"
 
 
 function App() {
@@ -84,7 +87,8 @@ function App() {
        {/* //sandaru */}
 
        {/* //sandali */}
-
+       <Route path="/checkout" element={<CheckoutDetails />} />
+          <Route path="/addCheckoutForm" element={<CheckoutForm />} />
       
         
         </Routes>
