@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import FooterUI from './FooterUI';
+import RegisterHeader from './RegisterHeader';
+import "./assets/css/login.css"
 
 function AdminLogin() {
   const [formData, setFormData] = useState({
@@ -41,6 +44,8 @@ function AdminLogin() {
 
 
   return (
+    <div className='bg'>
+      <RegisterHeader/>
     <div style={styles.container}>
       <h2 style={styles.title}>Admin Login</h2>
       <form onSubmit={handleSubmit} style={styles.form}>
@@ -70,6 +75,9 @@ function AdminLogin() {
       </form>
       {error && <div style={styles.error}>{error}</div>}
     </div>
+    <br></br>
+    <FooterUI/>
+    </div>
   );
 }
 
@@ -77,7 +85,7 @@ const styles = {
   container: {
     maxWidth: '400px',
     margin: '0 auto',
-    marginTop: '200px',
+    marginTop: '150px',
     padding: '20px',
     backgroundColor: '#f4f4f4',
     borderRadius: '5px',

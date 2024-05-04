@@ -35,14 +35,15 @@ router.route("/").get((req,res)=>{
     })     
 
 })
-//delete all after 24 hrs
+// Delete all after 24 hours
 setTimeout(async () => {
     try {
         await OverView.deleteMany({});
-        console.log('All OverView entries deleted.');
+        console.log('All OverView entries deleted after 24 hours.');
     } catch (error) {
         console.error('Error deleting all OverView entries:', error);
     }
-}, 24 * 60 * 60 * 1000); 
+}, 24 * 60 * 60 * 1000); // 24 hours in milliseconds
+
 
 module.exports = router;
