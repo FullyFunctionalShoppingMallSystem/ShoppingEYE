@@ -283,11 +283,13 @@ function LoyaltyAdminWatch() {
               </div>
               <br></br>
               <div className='middlein'>
-              <div className='card'>
+              
+              <div >
 
-              <div>
+              <div className='card'>
+                <div>
             
-            <ul>
+            <ul >
                 {filteredLoyalty.map(loyalty => (
                     <li key={loyalty._id}>
                         <p>Name: {loyalty.fullName}</p>
@@ -301,12 +303,19 @@ function LoyaltyAdminWatch() {
                   <button  onClick={()=> handleDeny(loyalty.nic)} className="btn btn-danger">
                     Deny
                   </button>
+                  
                     </li>
+                    
+                     
                     
                 ))}
                 
             </ul>
+            
+            </div>
+            
         </div>
+        
 
               </div>
             </div>
