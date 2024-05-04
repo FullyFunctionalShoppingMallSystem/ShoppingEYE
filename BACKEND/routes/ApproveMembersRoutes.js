@@ -22,7 +22,18 @@ router.post('/addMem', async (req, res) => {
     }
   });
 
-  
+   //Read by email
+router.route("/getEmail/:email").get(async(req,res)=>{
+  let email=req.params.email;
+ const contact= await CreateMem.findOne({ email: email }).then((contact)=>{
+      res.json(contact) //success
+  }).catch((err)=>{ //unsuccess
+
+      console.log(err);
+
+  })     
+
+}) 
 
 
   module.exports = router;
