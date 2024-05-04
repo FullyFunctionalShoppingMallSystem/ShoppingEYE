@@ -9,6 +9,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import loyalty1 from "../assets/img/loyalty2.jpg";
 import Footer from "./Footer";
 
+
 function CreateLoyalty() {
   const [fullName, setFullName] = useState('');
   const [nic, setNic] = useState('');
