@@ -11,87 +11,91 @@ import 'jspdf-autotable';
 function ApprovedMemberships(){
 
     const [Amemberships, setAmemberships] = useState([]);
-    const [searchTerm, setSearchTerm] = useState('');
-    const [loyalties, setLoyalties] = useState([]);
+    const [searchTerm, setSearchTerm] = useState("");
+    const [filteredMemberships, setFilteredMemberships] = useState([]);
+
+    
+    
+
     
     useEffect(() => {
-        function getAmemberships() {
-            axios.get('http://localhost:8070/approvedMemberships/AMdis')
-                .then((res) => {
-                    setAmemberships(res.data);
-                })
-                .catch((err) => {
-                    alert(err.message);
-                });
-        }
-        getAmemberships();
-    }, []);
+      function getAmemberships() {
+          axios.get('http://localhost:8070/approvedMemberships/AMdis')
+              .then((res) => {
+                  setAmemberships(res.data);
+                  setFilteredMemberships(res.data); // Set filtered memberships initially
+              })
+              .catch((err) => {
+                  alert(err.message);
+              });
+      }
+      getAmemberships();
+  }, []);
 
-    const handleSearchChange = (event) => {
-        const searchTerm = event.target.value;
-        setSearchTerm(searchTerm);
+  const handleSearchChange = (event) => {
+      const searchTerm = event.target.value;
+      setSearchTerm(searchTerm);
 
-        axios.get(`http://localhost:8070/getEmail/${searchTerm}`)
-            .then(response => {
-                setLoyalties(response.data);
-            })
-            .catch(error => {
-                console.error('Error fetching loyalties by email:', error);
-            });
-    };
+      const filtered = Amemberships.filter(member =>
+          member.email.startsWith(searchTerm)
+      );
+      setFilteredMemberships(filtered); // Update filtered memberships
+  };
+  
+  const filteredLoyalty = Amemberships ? Amemberships.filter(Amembership =>
+    Amembership.email.startsWith(searchTerm)
+) : [];
+    
+const generatePDF = (filteredData) => {
+  // Create a new jsPDF instance
+  const customPageSize = { width: 590, height: 1000 };
+  const pdf = new jsPDF('p', 'pt', [customPageSize.width, customPageSize.height]);
+  const imgWidth = 50;
+  const imgHeight = 50;
+  pdf.addImage(headerImageURL, 'PNG', 30, 10, imgWidth, imgHeight);
 
-    const filteredLoyalty = loyalties.filter(loyalty =>
-        loyalty.email.startsWith(searchTerm)
-    );
+  // Add logo and mall name
+  const mallName = 'MAZZA GALLERIE';
+  pdf.setFontSize(12);
+  pdf.text(mallName, 80, 38);
+  pdf.setFontSize(10);
+  pdf.text('Online Shopping Mall Management', 80, 52);
+
+  pdf.setFontSize(13);
+  pdf.setTextColor(0, 0, 0);
+  pdf.text('Loyalty Memberships', 40, 95);
+
+  // Define the table headers
+  const headers = [['Name', 'NIC', 'Email', 'Phone']];
+
+  // Extract data for the table rows
+  const data = filteredData.map(loyalty => [loyalty.fullName || '', loyalty.nic || '', loyalty.email || '', loyalty.phone || '']);
+
+  // Set the table width and height
+  const tableWidth = 450;
+  const tableHeight = 40;
+
+  // AutoTable plugin to generate the table
+  pdf.autoTable({
+    startY: 110,
+    head: headers,
+    body: data,
+    theme: 'striped',
+    margin: { top: 20, left: 40 },
+    styles: { fontSize: 10, cellPadding: 3, overflow: 'linebreak' },
+    columnStyles: { 0: { cellWidth: 100 }, 1: { cellWidth: 100 }, 2: { cellWidth: 150 }, 3: { cellWidth: 100 } }
+  });
+
+  const printedDate = new Date().toLocaleDateString();
+  pdf.setFontSize(10);
+  pdf.setTextColor(0, 0, 0);
+  pdf.text(`Printed on: ${printedDate}`, 40, 950);
+
+  // Save the PDF
+  pdf.save(`Mazza_Gallerie_Loyalty_Memberships_${new Date().toISOString()}.pdf`);
+};
 
 
-    const generatePDF = () => {
-        const customPageSize = { width: 590, height: 1000 };
-        const pdf = new jsPDF('p', 'pt', [customPageSize.width, customPageSize.height]);
-        const imgWidth = 50;
-        const imgHeight = 50;
-        // Assuming headerImageURL is defined somewhere, you may need to replace it with your actual image URL
-        pdf.addImage(headerImageURL, 'PNG', 30, 10, imgWidth, imgHeight);
-     // Add logo and mall name
-     const mallName = 'MAZZA GALLERIE';
-     pdf.setFontSize(12);
-     pdf.text(mallName, 80, 38);
-     pdf.setFontSize(10);
-     pdf.text('Online Shopping Mall Management', 80, 52);
-   
-     pdf.setFontSize(13);
-     pdf.setTextColor(0, 0, 0);
-     pdf.text('Loyalty Memberships', 40, 95);
-   
-     // Define the table headers
-     const headers = [['Name', 'NIC', 'Email', 'Phone']];
-   
-     // Extract data for the table rows
-     const data = filteredLoyalty.map(loyalty => [loyalty.fullName || '', loyalty.nic || '', loyalty.email || '', loyalty.phone || '']);
-   
-     // Set the table width and height
-     const tableWidth = 450;
-     const tableHeight = 40;
-   
-     // AutoTable plugin to generate the table
-     pdf.autoTable({
-       startY: 110,
-       head: headers,
-       body: data,
-       theme: 'striped',
-       margin: { top: 20, left: 40 },
-       styles: { fontSize: 10, cellPadding: 3, overflow: 'linebreak' },
-       columnStyles: { 0: { cellWidth: 100 }, 1: { cellWidth: 100 }, 2: { cellWidth: 150 }, 3: { cellWidth: 100 } }
-     });
-   
-     const printedDate = new Date().toLocaleDateString();
-     pdf.setFontSize(10);
-     pdf.setTextColor(0, 0, 0);
-     pdf.text(`Printed on: ${printedDate}`, 40, 950);
-   
-     // Save the PDF
-     pdf.save(`Mazza_Gallerie_Loyalty_Memberships_${new Date().toISOString()}.pdf`);
-   };
  
     return(
         <div>
@@ -224,7 +228,7 @@ function ApprovedMemberships(){
       </div>
     </nav>
 <br></br>
-    <button style={{marginLeft:"30px"}} onClick={generatePDF} className="btn btn-info"><FontAwesomeIcon icon={faDownload}></FontAwesomeIcon>  Download PDF</button>
+    <button onClick={() => generatePDF(filteredMemberships)} style={{marginLeft:"30px"}}  className="btn btn-info"><FontAwesomeIcon icon={faDownload}></FontAwesomeIcon>  Download PDF</button>
         <div className="container" style={{width:"1000px"}}>
       
         <h1>Approved Memberships</h1>
@@ -240,7 +244,7 @@ function ApprovedMemberships(){
                     </tr>
                 </thead>
                 <tbody>
-                    {filteredLoyalty.map((Amembership, index) => (
+                    {filteredMemberships.map((Amembership, index) => (
                         <tr key={Amembership._id}>
                             <th scope="row">{index + 1}</th>
                             <td>{Amembership.fullName}</td>
