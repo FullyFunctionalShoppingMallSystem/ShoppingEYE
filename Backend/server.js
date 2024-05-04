@@ -79,9 +79,6 @@ app.use("/approvedMemberships", approvedmembershipRouter);
 
 
 //sandali
-const paymentRouter = require("./routes/payments.js");
-
-app.use("/payment", paymentRouter);
 
 
 
