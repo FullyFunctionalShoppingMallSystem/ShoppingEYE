@@ -61,7 +61,6 @@ function App() {
          <Route path="/VirtualSearch" element={<Search />} />
          <Route path="/dashboard" element={<Dashboard />} />
          <Route path="/sales" element={<Sales />} />
-         <Route path="/qwe" element={<Footer />} />
          <Route path="/mazza-gallarie" element={<HomeUI/>}/>
        
        {/* //ravindu */}

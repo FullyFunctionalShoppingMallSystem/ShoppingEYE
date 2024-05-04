@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import SignInHeader from './SignInHeader';
+import FooterUI from './FooterUI';
+import "./assets/css/login.css"
 
 function LoginForm() {
   const [formData, setFormData] = useState({
@@ -32,7 +35,7 @@ function LoginForm() {
           email: data.person.email,
           dateOfBirth: data.person.dateOfBirth,
         }));
-        navigate('/person/profile'); // Redirect to profile using navigate
+        navigate('/mazza-gallarie'); // Redirect to profile using navigate
       } else {
         throw new Error('Failed to login');
       }
@@ -43,6 +46,10 @@ function LoginForm() {
   };
 
   return (
+    <>
+    <div  className='bg'>
+      <SignInHeader/>
+  <br></br>
     <div style={styles.container}>
       <h2 style={styles.title}>Login</h2>
       <form onSubmit={handleSubmit} style={styles.form}>
@@ -75,16 +82,22 @@ function LoginForm() {
       {error && <div style={styles.error}>{error}</div>}
       <a href='/person/register' style={{textDecoration: 'none', color: 'red'}}><h6>Not Registered ? Register Now</h6></a>
     </div>
+    <br></br>
+    </div>
+   
+    <FooterUI/>
+    </>
   );
 }
 
 
 const styles = {
+
   container: {
     maxWidth: '400px',
     margin: '0 auto',
-    marginTop: '200px',
     padding: '20px',
+    marginTop: '100px',
     backgroundColor: '#f4f4f4',
     borderRadius: '5px',
     boxShadow: '0 2px 4px rgba(0,0,0,0.1)',

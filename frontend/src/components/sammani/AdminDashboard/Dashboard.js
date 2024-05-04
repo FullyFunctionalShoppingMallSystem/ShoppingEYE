@@ -319,7 +319,7 @@ useEffect(() => {
     </div>
     <div className="sidenav-footer position-absolute w-100 bottom-0 ">
       <div className="mx-3">
-        <a className="btn bg-gradient-primary w-100" href="" type="button">
+        <a className="btn bg-gradient-primary w-100" href="/" type="button">
        
               <i className="material-icons opacity-10">login</i>
             <span className="nav-link-text ms-3">Sign Out</span>
@@ -485,11 +485,11 @@ useEffect(() => {
             <div className="card-header pb-0" style={{padding:" 0.5rem"}} >
               <h6>Orders overview</h6>
               <p className="text-sm">
-              Today's Overview: {new Date().toLocaleDateString()}
+                 Today's Overview: {new Date().toLocaleDateString()}
               </p>
              
               <div style={{ maxHeight: "270px", overflowY: "auto" , width:"270px" }}>
-              <table>
+              <table style={{marginLeft:"30px"}}>
             
                 <tbody>
              {overview.map((item, index) => (
