@@ -253,6 +253,7 @@ function ApprovedMemberships(){
                     ))}
                 </tbody>
 </table>
+<br></br>
     </div>
     </main>
      </div> 
