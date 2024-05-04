@@ -11,7 +11,7 @@ function Payment() {
   const [payments, setPayments] = useState([]);
 
   useEffect(() => {
-    axios.get('/payment')
+    axios.get('http://localhost:8070/payment/')
       .then((res) => {
         console.log(res);
         setPayments(res.data);
@@ -32,7 +32,7 @@ function Payment() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('/payment/add', formData);
+      await axios.post('http://localhost:8070/payment/add', formData);
       alert('Payment details added successfully!');
       setFormData({
         name: '',
@@ -41,7 +41,7 @@ function Payment() {
         expdate: ''
       });
       // Refresh the list of payments after adding a new payment
-      axios.get('/payment')
+      axios.get('http://localhost:8070/payment/')
         .then((res) => {
           console.log(res);
           setPayments(res.data);
@@ -58,11 +58,14 @@ function Payment() {
   const handleUpdate = async (id) => {
     // Implement update logic here
     console.log('Update payment with ID:', id);
+
+
+
   };
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`/payment/delete/${id}`);
+      await axios.delete(`http://localhost:8070/payment/delete/${id}`);
       alert('Payment details deleted successfully!');
       setPayments(payments.filter((payment) => payment._id !== id));
     } catch (error) {
