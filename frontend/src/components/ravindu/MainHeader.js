@@ -121,6 +121,9 @@ function Header(){
                     <a href="" className="dropdown-item border-radius-md">
                       <span>Payment Methods</span>
                     </a>
+                    <a href="/createLoyalty" className="dropdown-item border-radius-md">
+                      <span>Loyalty Registration</span>
+                    </a>
                     <a href="/" className="dropdown-item border-radius-md">
                       <span>Sign Out</span>
                     </a>
