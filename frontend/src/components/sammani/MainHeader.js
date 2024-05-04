@@ -122,7 +122,7 @@ function Header(){
                       <a href="" className="dropdown-item border-radius-md">
                         <span>Payment Methods</span>
                       </a>
-                      <a href="" className="dropdown-item border-radius-md">
+                      <a href="/" className="dropdown-item border-radius-md">
                         <span>Sign Out</span>
                       </a>
                     </div>

@@ -35,7 +35,7 @@ function LoginForm() {
           email: data.person.email,
           dateOfBirth: data.person.dateOfBirth,
         }));
-        navigate('/person/profile'); // Redirect to profile using navigate
+        navigate('/mazza-gallarie'); // Redirect to profile using navigate
       } else {
         throw new Error('Failed to login');
       }
