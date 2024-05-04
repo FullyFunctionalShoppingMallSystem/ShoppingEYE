@@ -13,7 +13,7 @@ function UpdatePayment() {
   });
 
   useEffect(() => {
-    axios.get(`/payment/get/${id}`)
+    axios.get(`http://localhost:8070/payment/get/${id}`)
       .then((res) => {
         setFormData(res.data.payment);
       })
@@ -33,7 +33,7 @@ function UpdatePayment() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`/payment/update/${id}`, formData);
+      await axios.put(`http://localhost:8070/payment/update/${id}`, formData);
       alert('Payment details updated successfully!');
       history.push('/'); // Redirect to home page after update
     } catch (error) {
