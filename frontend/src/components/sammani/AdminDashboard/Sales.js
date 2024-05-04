@@ -327,7 +327,7 @@ const checkButtonStatus = () => {
 
     return (
       
-      <div className="row" style={{ borderTop: "1px solid black", padding: "0vh 0"}}>
+      <div className="row" style={{ borderTop: "1px solid black", padding: "0vh 0",marginLeft:"10px"}}>
       <li key={index} className={`list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg ${isExpired ? 'text-danger' : ''}`}>
         <p className="">{index + 1}</p>
         <div className="d-flex flex-column" style={{ marginRight: "70px", width: "150px" }}>
